@@ -1,0 +1,2919 @@
+{
+  "schemaVersion": 2,
+  "source": "sp_lores-2.png",
+  "grid": {
+    "rows": 4,
+    "columns": 25,
+    "occupiedElements": 99,
+    "emptyCells": [
+      {
+        "row": 4,
+        "column": 25
+      }
+    ],
+    "cellPixels": {
+      "width": 39,
+      "height": 144
+    }
+  },
+  "elementClassification": {
+    "field": "elementCategory",
+    "scheme": "PubChem chemical group/block",
+    "source": "https://pubchem.ncbi.nlm.nih.gov/periodic-table/",
+    "categories": [
+      "nonmetal",
+      "noble gas",
+      "alkali metal",
+      "alkaline earth metal",
+      "metalloid",
+      "halogen",
+      "transition metal",
+      "post-transition metal",
+      "lanthanide",
+      "actinide"
+    ],
+    "categoryCounts": {
+      "nonmetal": 7,
+      "noble gas": 6,
+      "alkali metal": 6,
+      "alkaline earth metal": 6,
+      "metalloid": 7,
+      "halogen": 5,
+      "transition metal": 29,
+      "post-transition metal": 7,
+      "lanthanide": 15,
+      "actinide": 11
+    },
+    "boundaryConventions": {
+      "Po": "metalloid",
+      "At": "halogen",
+      "Zn, Cd, Hg": "transition metal",
+      "La-Lu": "lanthanide",
+      "Ac-Es": "actinide"
+    }
+  },
+  "extraction": {
+    "bandCount": 16,
+    "bandOrder": "top-to-bottom, red-to-blue-violet",
+    "spectrumLocalPixelY": {
+      "start": 0,
+      "endExclusive": 119
+    },
+    "excludedLabelLocalPixelY": {
+      "start": 119,
+      "endExclusive": 144
+    },
+    "pixelBrightness": "max(red, green, blue) / 255",
+    "aggregate": "arithmetic mean of pixel brightness over each band; black pixels are retained as zero signal",
+    "boundaryPixelTreatment": "fractional-area weighting where an exact 1/16 boundary crosses a pixel row",
+    "normalization": "each raw aggregate divided by the maximum raw aggregate across all 99 elements and 16 bands",
+    "globalMaximumRawAggregate": 0.991596638655,
+    "globalMaximumLocation": {
+      "atomicNumber": 59,
+      "symbol": "Pr",
+      "band": "band_14"
+    },
+    "outputRange": [
+      0,
+      1
+    ],
+    "decimalPrecision": 6
+  },
+  "bands": [
+    {
+      "key": "band_01",
+      "midiTrack": 1,
+      "spectrumOrder": 1,
+      "spectrumPositionStart": 0.0,
+      "spectrumPositionEnd": 0.0625,
+      "localPixelYStart": 0.0,
+      "localPixelYEndExclusive": 7.4375,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_02",
+      "midiTrack": 2,
+      "spectrumOrder": 2,
+      "spectrumPositionStart": 0.0625,
+      "spectrumPositionEnd": 0.125,
+      "localPixelYStart": 7.4375,
+      "localPixelYEndExclusive": 14.875,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_03",
+      "midiTrack": 3,
+      "spectrumOrder": 3,
+      "spectrumPositionStart": 0.125,
+      "spectrumPositionEnd": 0.1875,
+      "localPixelYStart": 14.875,
+      "localPixelYEndExclusive": 22.3125,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_04",
+      "midiTrack": 4,
+      "spectrumOrder": 4,
+      "spectrumPositionStart": 0.1875,
+      "spectrumPositionEnd": 0.25,
+      "localPixelYStart": 22.3125,
+      "localPixelYEndExclusive": 29.75,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_05",
+      "midiTrack": 5,
+      "spectrumOrder": 5,
+      "spectrumPositionStart": 0.25,
+      "spectrumPositionEnd": 0.3125,
+      "localPixelYStart": 29.75,
+      "localPixelYEndExclusive": 37.1875,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_06",
+      "midiTrack": 6,
+      "spectrumOrder": 6,
+      "spectrumPositionStart": 0.3125,
+      "spectrumPositionEnd": 0.375,
+      "localPixelYStart": 37.1875,
+      "localPixelYEndExclusive": 44.625,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_07",
+      "midiTrack": 7,
+      "spectrumOrder": 7,
+      "spectrumPositionStart": 0.375,
+      "spectrumPositionEnd": 0.4375,
+      "localPixelYStart": 44.625,
+      "localPixelYEndExclusive": 52.0625,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_08",
+      "midiTrack": 8,
+      "spectrumOrder": 8,
+      "spectrumPositionStart": 0.4375,
+      "spectrumPositionEnd": 0.5,
+      "localPixelYStart": 52.0625,
+      "localPixelYEndExclusive": 59.5,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_09",
+      "midiTrack": 9,
+      "spectrumOrder": 9,
+      "spectrumPositionStart": 0.5,
+      "spectrumPositionEnd": 0.5625,
+      "localPixelYStart": 59.5,
+      "localPixelYEndExclusive": 66.9375,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_10",
+      "midiTrack": 10,
+      "spectrumOrder": 10,
+      "spectrumPositionStart": 0.5625,
+      "spectrumPositionEnd": 0.625,
+      "localPixelYStart": 66.9375,
+      "localPixelYEndExclusive": 74.375,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_11",
+      "midiTrack": 11,
+      "spectrumOrder": 11,
+      "spectrumPositionStart": 0.625,
+      "spectrumPositionEnd": 0.6875,
+      "localPixelYStart": 74.375,
+      "localPixelYEndExclusive": 81.8125,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_12",
+      "midiTrack": 12,
+      "spectrumOrder": 12,
+      "spectrumPositionStart": 0.6875,
+      "spectrumPositionEnd": 0.75,
+      "localPixelYStart": 81.8125,
+      "localPixelYEndExclusive": 89.25,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_13",
+      "midiTrack": 13,
+      "spectrumOrder": 13,
+      "spectrumPositionStart": 0.75,
+      "spectrumPositionEnd": 0.8125,
+      "localPixelYStart": 89.25,
+      "localPixelYEndExclusive": 96.6875,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_14",
+      "midiTrack": 14,
+      "spectrumOrder": 14,
+      "spectrumPositionStart": 0.8125,
+      "spectrumPositionEnd": 0.875,
+      "localPixelYStart": 96.6875,
+      "localPixelYEndExclusive": 104.125,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_15",
+      "midiTrack": 15,
+      "spectrumOrder": 15,
+      "spectrumPositionStart": 0.875,
+      "spectrumPositionEnd": 0.9375,
+      "localPixelYStart": 104.125,
+      "localPixelYEndExclusive": 111.5625,
+      "direction": "top/red toward bottom/blue-violet"
+    },
+    {
+      "key": "band_16",
+      "midiTrack": 16,
+      "spectrumOrder": 16,
+      "spectrumPositionStart": 0.9375,
+      "spectrumPositionEnd": 1.0,
+      "localPixelYStart": 111.5625,
+      "localPixelYEndExclusive": 119.0,
+      "direction": "top/red toward bottom/blue-violet"
+    }
+  ],
+  "elements": [
+    {
+      "atomicNumber": 1,
+      "symbol": "H",
+      "elementCategory": "nonmetal",
+      "grid": {
+        "row": 1,
+        "column": 1
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.135593,
+        "band_06": 0.0,
+        "band_07": 0.0,
+        "band_08": 0.0,
+        "band_09": 0.0,
+        "band_10": 0.0,
+        "band_11": 0.0,
+        "band_12": 0.063809,
+        "band_13": 0.0,
+        "band_14": 0.039349,
+        "band_15": 0.00904,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 2,
+      "symbol": "He",
+      "elementCategory": "noble gas",
+      "grid": {
+        "row": 1,
+        "column": 2
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.029777,
+        "band_04": 0.092788,
+        "band_05": 0.014623,
+        "band_06": 0.0,
+        "band_07": 0.0,
+        "band_08": 0.271186,
+        "band_09": 0.0,
+        "band_10": 0.005849,
+        "band_11": 0.098837,
+        "band_12": 0.073446,
+        "band_13": 0.225457,
+        "band_14": 0.23237,
+        "band_15": 0.035626,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 3,
+      "symbol": "Li",
+      "elementCategory": "alkali metal",
+      "grid": {
+        "row": 1,
+        "column": 3
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.2446,
+        "band_05": 0.0,
+        "band_06": 0.03988,
+        "band_07": 0.153672,
+        "band_08": 0.0,
+        "band_09": 0.0,
+        "band_10": 0.0,
+        "band_11": 0.0,
+        "band_12": 0.046793,
+        "band_13": 0.10103,
+        "band_14": 0.001795,
+        "band_15": 0.030641,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 4,
+      "symbol": "Be",
+      "elementCategory": "alkaline earth metal",
+      "grid": {
+        "row": 1,
+        "column": 4
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.012097,
+        "band_04": 0.020871,
+        "band_05": 0.098372,
+        "band_06": 0.0,
+        "band_07": 0.00319,
+        "band_08": 0.00319,
+        "band_09": 0.0,
+        "band_10": 0.064407,
+        "band_11": 0.246594,
+        "band_12": 0.140578,
+        "band_13": 0.432303,
+        "band_14": 0.403656,
+        "band_15": 0.081688,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 5,
+      "symbol": "B",
+      "elementCategory": "metalloid",
+      "grid": {
+        "row": 1,
+        "column": 5
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.0,
+        "band_06": 0.045198,
+        "band_07": 0.111665,
+        "band_08": 0.001595,
+        "band_09": 0.020738,
+        "band_10": 0.00319,
+        "band_11": 0.017248,
+        "band_12": 0.253406,
+        "band_13": 0.03998,
+        "band_14": 0.448355,
+        "band_15": 0.30987,
+        "band_16": 0.005783
+      }
+    },
+    {
+      "atomicNumber": 6,
+      "symbol": "C",
+      "elementCategory": "nonmetal",
+      "grid": {
+        "row": 1,
+        "column": 6
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.00319,
+        "band_03": 0.030309,
+        "band_04": 0.08654,
+        "band_05": 0.06989,
+        "band_06": 0.205151,
+        "band_07": 0.446128,
+        "band_08": 0.091193,
+        "band_09": 0.225723,
+        "band_10": 0.272782,
+        "band_11": 0.411931,
+        "band_12": 0.25673,
+        "band_13": 0.075773,
+        "band_14": 0.220405,
+        "band_15": 0.056098,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 7,
+      "symbol": "N",
+      "elementCategory": "nonmetal",
+      "grid": {
+        "row": 1,
+        "column": 7
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.001595,
+        "band_04": 0.225058,
+        "band_05": 0.499634,
+        "band_06": 0.216617,
+        "band_07": 0.300798,
+        "band_08": 0.287704,
+        "band_09": 0.234663,
+        "band_10": 0.067896,
+        "band_11": 0.337753,
+        "band_12": 0.357627,
+        "band_13": 0.322167,
+        "band_14": 0.401928,
+        "band_15": 0.284746,
+        "band_16": 0.001595
+      }
+    },
+    {
+      "atomicNumber": 8,
+      "symbol": "O",
+      "elementCategory": "nonmetal",
+      "grid": {
+        "row": 1,
+        "column": 8
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.002792,
+        "band_04": 0.020472,
+        "band_05": 0.242606,
+        "band_06": 0.107478,
+        "band_07": 0.542838,
+        "band_08": 0.028182,
+        "band_09": 0.225989,
+        "band_10": 0.281223,
+        "band_11": 0.33679,
+        "band_12": 0.41449,
+        "band_13": 0.413161,
+        "band_14": 0.384779,
+        "band_15": 0.238551,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 9,
+      "symbol": "F",
+      "elementCategory": "halogen",
+      "grid": {
+        "row": 1,
+        "column": 9
+      },
+      "colorAggregates": {
+        "band_01": 0.004254,
+        "band_02": 0.016683,
+        "band_03": 0.141542,
+        "band_04": 0.283383,
+        "band_05": 0.089099,
+        "band_06": 0.329113,
+        "band_07": 0.035626,
+        "band_08": 0.00452,
+        "band_09": 0.006647,
+        "band_10": 0.0,
+        "band_11": 0.04214,
+        "band_12": 0.072715,
+        "band_13": 0.003057,
+        "band_14": 0.100033,
+        "band_15": 0.089664,
+        "band_16": 0.001861
+      }
+    },
+    {
+      "atomicNumber": 10,
+      "symbol": "Ne",
+      "elementCategory": "noble gas",
+      "grid": {
+        "row": 1,
+        "column": 10
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.005317,
+        "band_03": 0.030808,
+        "band_04": 0.054669,
+        "band_05": 0.251545,
+        "band_06": 0.645763,
+        "band_07": 0.555833,
+        "band_08": 0.305184,
+        "band_09": 0.017281,
+        "band_10": 0.080093,
+        "band_11": 0.027551,
+        "band_12": 0.029944,
+        "band_13": 0.050548,
+        "band_14": 0.045231,
+        "band_15": 0.010701,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 11,
+      "symbol": "Na",
+      "elementCategory": "alkali metal",
+      "grid": {
+        "row": 1,
+        "column": 11
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.0,
+        "band_06": 0.000997,
+        "band_07": 0.022399,
+        "band_08": 0.142506,
+        "band_09": 0.020738,
+        "band_10": 0.0,
+        "band_11": 0.009771,
+        "band_12": 0.006049,
+        "band_13": 0.016085,
+        "band_14": 0.005849,
+        "band_15": 0.0,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 12,
+      "symbol": "Mg",
+      "elementCategory": "alkaline earth metal",
+      "grid": {
+        "row": 1,
+        "column": 12
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.005317,
+        "band_05": 0.051512,
+        "band_06": 0.020273,
+        "band_07": 0.044533,
+        "band_08": 0.055168,
+        "band_09": 0.054337,
+        "band_10": 0.019109,
+        "band_11": 0.284879,
+        "band_12": 0.08674,
+        "band_13": 0.09887,
+        "band_14": 0.118345,
+        "band_15": 0.087737,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 13,
+      "symbol": "Al",
+      "elementCategory": "post-transition metal",
+      "grid": {
+        "row": 1,
+        "column": 13
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.001063,
+        "band_04": 0.010103,
+        "band_05": 0.101429,
+        "band_06": 0.101894,
+        "band_07": 0.041276,
+        "band_08": 0.076836,
+        "band_09": 0.194882,
+        "band_10": 0.075507,
+        "band_11": 0.260784,
+        "band_12": 0.157162,
+        "band_13": 0.450881,
+        "band_14": 0.262712,
+        "band_15": 0.16218,
+        "band_16": 0.008508
+      }
+    },
+    {
+      "atomicNumber": 14,
+      "symbol": "Si",
+      "elementCategory": "metalloid",
+      "grid": {
+        "row": 1,
+        "column": 14
+      },
+      "colorAggregates": {
+        "band_01": 0.032968,
+        "band_02": 0.099435,
+        "band_03": 0.081888,
+        "band_04": 0.327019,
+        "band_05": 0.216384,
+        "band_06": 0.395713,
+        "band_07": 0.417281,
+        "band_08": 0.414556,
+        "band_09": 0.381722,
+        "band_10": 0.092788,
+        "band_11": 0.743536,
+        "band_12": 0.671884,
+        "band_13": 0.346826,
+        "band_14": 0.516783,
+        "band_15": 0.483416,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 15,
+      "symbol": "P",
+      "elementCategory": "nonmetal",
+      "grid": {
+        "row": 1,
+        "column": 15
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.005317,
+        "band_03": 0.006913,
+        "band_04": 0.026587,
+        "band_05": 0.089365,
+        "band_06": 0.084779,
+        "band_07": 0.185311,
+        "band_08": 0.011167,
+        "band_09": 0.477534,
+        "band_10": 0.919608,
+        "band_11": 0.465005,
+        "band_12": 0.379395,
+        "band_13": 0.605151,
+        "band_14": 0.313958,
+        "band_15": 0.32323,
+        "band_16": 0.008043
+      }
+    },
+    {
+      "atomicNumber": 16,
+      "symbol": "S",
+      "elementCategory": "nonmetal",
+      "grid": {
+        "row": 1,
+        "column": 16
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.005284,
+        "band_04": 0.11768,
+        "band_05": 0.13207,
+        "band_06": 0.278963,
+        "band_07": 0.48006,
+        "band_08": 0.196444,
+        "band_09": 0.366633,
+        "band_10": 0.508541,
+        "band_11": 0.684779,
+        "band_12": 0.492024,
+        "band_13": 0.584646,
+        "band_14": 0.774144,
+        "band_15": 0.431406,
+        "band_16": 0.002559
+      }
+    },
+    {
+      "atomicNumber": 17,
+      "symbol": "Cl",
+      "elementCategory": "halogen",
+      "grid": {
+        "row": 1,
+        "column": 17
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.001063,
+        "band_03": 0.066467,
+        "band_04": 0.223064,
+        "band_05": 0.250382,
+        "band_06": 0.15673,
+        "band_07": 0.238318,
+        "band_08": 0.187537,
+        "band_09": 0.135793,
+        "band_10": 0.31439,
+        "band_11": 0.471652,
+        "band_12": 0.620472,
+        "band_13": 0.470156,
+        "band_14": 0.619575,
+        "band_15": 0.378132,
+        "band_16": 0.002659
+      }
+    },
+    {
+      "atomicNumber": 18,
+      "symbol": "Ar",
+      "elementCategory": "noble gas",
+      "grid": {
+        "row": 1,
+        "column": 18
+      },
+      "colorAggregates": {
+        "band_01": 0.068395,
+        "band_02": 0.066467,
+        "band_03": 0.345065,
+        "band_04": 0.139681,
+        "band_05": 0.239116,
+        "band_06": 0.062512,
+        "band_07": 0.159953,
+        "band_08": 0.150582,
+        "band_09": 0.181057,
+        "band_10": 0.096045,
+        "band_11": 0.191625,
+        "band_12": 0.141309,
+        "band_13": 0.167597,
+        "band_14": 0.397175,
+        "band_15": 0.38325,
+        "band_16": 0.003922
+      }
+    },
+    {
+      "atomicNumber": 19,
+      "symbol": "K",
+      "elementCategory": "alkali metal",
+      "grid": {
+        "row": 1,
+        "column": 19
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.225989,
+        "band_04": 0.0,
+        "band_05": 0.043071,
+        "band_06": 0.083483,
+        "band_07": 0.252044,
+        "band_08": 0.307345,
+        "band_09": 0.141243,
+        "band_10": 0.229379,
+        "band_11": 0.147125,
+        "band_12": 0.207012,
+        "band_13": 0.363443,
+        "band_14": 0.320239,
+        "band_15": 0.30452,
+        "band_16": 0.062512
+      }
+    },
+    {
+      "atomicNumber": 20,
+      "symbol": "Ca",
+      "elementCategory": "alkaline earth metal",
+      "grid": {
+        "row": 1,
+        "column": 20
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.036889,
+        "band_03": 0.024327,
+        "band_04": 0.053107,
+        "band_05": 0.421336,
+        "band_06": 0.094649,
+        "band_07": 0.273812,
+        "band_08": 0.065503,
+        "band_09": 0.229246,
+        "band_10": 0.236823,
+        "band_11": 0.097574,
+        "band_12": 0.051313,
+        "band_13": 0.178697,
+        "band_14": 0.479727,
+        "band_15": 0.137122,
+        "band_16": 0.004187
+      }
+    },
+    {
+      "atomicNumber": 21,
+      "symbol": "Sc",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 1,
+        "column": 21
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.024992,
+        "band_04": 0.183317,
+        "band_05": 0.388269,
+        "band_06": 0.388136,
+        "band_07": 0.629877,
+        "band_08": 0.23772,
+        "band_09": 0.384148,
+        "band_10": 0.209671,
+        "band_11": 0.355666,
+        "band_12": 0.301828,
+        "band_13": 0.550582,
+        "band_14": 0.603955,
+        "band_15": 0.314224,
+        "band_16": 0.002692
+      }
+    },
+    {
+      "atomicNumber": 22,
+      "symbol": "Ti",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 1,
+        "column": 22
+      },
+      "colorAggregates": {
+        "band_01": 0.000233,
+        "band_02": 0.002426,
+        "band_03": 0.010801,
+        "band_04": 0.01459,
+        "band_05": 0.038252,
+        "band_06": 0.15118,
+        "band_07": 0.471818,
+        "band_08": 0.222632,
+        "band_09": 0.183616,
+        "band_10": 0.318943,
+        "band_11": 0.613659,
+        "band_12": 0.434197,
+        "band_13": 0.637222,
+        "band_14": 0.800266,
+        "band_15": 0.190861,
+        "band_16": 0.007943
+      }
+    },
+    {
+      "atomicNumber": 23,
+      "symbol": "V",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 1,
+        "column": 23
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.000166,
+        "band_04": 0.044101,
+        "band_05": 0.160884,
+        "band_06": 0.637255,
+        "band_07": 0.66557,
+        "band_08": 0.510236,
+        "band_09": 0.742672,
+        "band_10": 0.511299,
+        "band_11": 0.348355,
+        "band_12": 0.489133,
+        "band_13": 0.751944,
+        "band_14": 0.788767,
+        "band_15": 0.33443,
+        "band_16": 0.010003
+      }
+    },
+    {
+      "atomicNumber": 24,
+      "symbol": "Cr",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 1,
+        "column": 24
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.009139,
+        "band_04": 0.103323,
+        "band_05": 0.238385,
+        "band_06": 0.112097,
+        "band_07": 0.310236,
+        "band_08": 0.368195,
+        "band_09": 0.43011,
+        "band_10": 0.875906,
+        "band_11": 0.414257,
+        "band_12": 0.70791,
+        "band_13": 0.891392,
+        "band_14": 0.741908,
+        "band_15": 0.359621,
+        "band_16": 0.005351
+      }
+    },
+    {
+      "atomicNumber": 25,
+      "symbol": "Mn",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 1,
+        "column": 25
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.005118,
+        "band_03": 0.003357,
+        "band_04": 0.016916,
+        "band_05": 0.12107,
+        "band_06": 0.057727,
+        "band_07": 0.181256,
+        "band_08": 0.100565,
+        "band_09": 0.139714,
+        "band_10": 0.287803,
+        "band_11": 0.193951,
+        "band_12": 0.381921,
+        "band_13": 0.438152,
+        "band_14": 0.712662,
+        "band_15": 0.306381,
+        "band_16": 0.004553
+      }
+    },
+    {
+      "atomicNumber": 26,
+      "symbol": "Fe",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 1
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002127,
+        "band_03": 0.004254,
+        "band_04": 0.033101,
+        "band_05": 0.039149,
+        "band_06": 0.096245,
+        "band_07": 0.086474,
+        "band_08": 0.168827,
+        "band_09": 0.587238,
+        "band_10": 0.932802,
+        "band_11": 0.984546,
+        "band_12": 0.62549,
+        "band_13": 0.347624,
+        "band_14": 0.920771,
+        "band_15": 0.644001,
+        "band_16": 0.01223
+      }
+    },
+    {
+      "atomicNumber": 27,
+      "symbol": "Co",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 2
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.003523,
+        "band_03": 0.023264,
+        "band_04": 0.071186,
+        "band_05": 0.153971,
+        "band_06": 0.108907,
+        "band_07": 0.16557,
+        "band_08": 0.082154,
+        "band_09": 0.15673,
+        "band_10": 0.749418,
+        "band_11": 0.71881,
+        "band_12": 0.416251,
+        "band_13": 0.56793,
+        "band_14": 0.300931,
+        "band_15": 0.087272,
+        "band_16": 0.00565
+      }
+    },
+    {
+      "atomicNumber": 28,
+      "symbol": "Ni",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 3
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.001994,
+        "band_03": 0.00226,
+        "band_04": 0.005583,
+        "band_05": 0.01429,
+        "band_06": 0.058624,
+        "band_07": 0.082552,
+        "band_08": 0.147358,
+        "band_09": 0.284247,
+        "band_10": 0.079595,
+        "band_11": 0.783749,
+        "band_12": 0.651014,
+        "band_13": 0.348122,
+        "band_14": 0.210602,
+        "band_15": 0.048255,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 29,
+      "symbol": "Cu",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 4
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.022765,
+        "band_04": 0.053539,
+        "band_05": 0.069325,
+        "band_06": 0.146427,
+        "band_07": 0.112728,
+        "band_08": 0.105949,
+        "band_09": 0.094683,
+        "band_10": 0.144666,
+        "band_11": 0.475673,
+        "band_12": 0.128581,
+        "band_13": 0.166999,
+        "band_14": 0.059521,
+        "band_15": 0.070189,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 30,
+      "symbol": "Zn",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 5
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.009571,
+        "band_06": 0.143569,
+        "band_07": 0.009571,
+        "band_08": 0.015952,
+        "band_09": 0.00319,
+        "band_10": 0.00319,
+        "band_11": 0.038285,
+        "band_12": 0.168295,
+        "band_13": 0.362911,
+        "band_14": 0.102094,
+        "band_15": 0.006381,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 31,
+      "symbol": "Ga",
+      "elementCategory": "post-transition metal",
+      "grid": {
+        "row": 2,
+        "column": 6
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.02014,
+        "band_06": 0.072915,
+        "band_07": 0.009571,
+        "band_08": 0.009571,
+        "band_09": 0.0,
+        "band_10": 0.025922,
+        "band_11": 0.011167,
+        "band_12": 0.013958,
+        "band_13": 0.009571,
+        "band_14": 0.000798,
+        "band_15": 0.161914,
+        "band_16": 0.011167
+      }
+    },
+    {
+      "atomicNumber": 32,
+      "symbol": "Ge",
+      "elementCategory": "metalloid",
+      "grid": {
+        "row": 2,
+        "column": 7
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002326,
+        "band_03": 0.012031,
+        "band_04": 0.024992,
+        "band_05": 0.03669,
+        "band_06": 0.049452,
+        "band_07": 0.153672,
+        "band_08": 0.199402,
+        "band_09": 0.225989,
+        "band_10": 0.029179,
+        "band_11": 0.291957,
+        "band_12": 0.189598,
+        "band_13": 0.075773,
+        "band_14": 0.076437,
+        "band_15": 0.213892,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 33,
+      "symbol": "As",
+      "elementCategory": "metalloid",
+      "grid": {
+        "row": 2,
+        "column": 8
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.002127,
+        "band_04": 0.0,
+        "band_05": 0.02991,
+        "band_06": 0.053838,
+        "band_07": 0.145962,
+        "band_08": 0.045729,
+        "band_09": 0.183184,
+        "band_10": 0.231306,
+        "band_11": 0.468195,
+        "band_12": 0.330741,
+        "band_13": 0.469658,
+        "band_14": 0.517514,
+        "band_15": 0.241675,
+        "band_16": 0.024992
+      }
+    },
+    {
+      "atomicNumber": 34,
+      "symbol": "Se",
+      "elementCategory": "nonmetal",
+      "grid": {
+        "row": 2,
+        "column": 9
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.01223,
+        "band_04": 0.043337,
+        "band_05": 0.070489,
+        "band_06": 0.196843,
+        "band_07": 0.206547,
+        "band_08": 0.147192,
+        "band_09": 0.21572,
+        "band_10": 0.411333,
+        "band_11": 0.614191,
+        "band_12": 0.397707,
+        "band_13": 0.363676,
+        "band_14": 0.588534,
+        "band_15": 0.390761,
+        "band_16": 0.028514
+      }
+    },
+    {
+      "atomicNumber": 35,
+      "symbol": "Br",
+      "elementCategory": "halogen",
+      "grid": {
+        "row": 2,
+        "column": 10
+      },
+      "colorAggregates": {
+        "band_01": 0.001163,
+        "band_02": 0.002559,
+        "band_03": 0.012762,
+        "band_04": 0.108209,
+        "band_05": 0.34214,
+        "band_06": 0.130907,
+        "band_07": 0.208375,
+        "band_08": 0.119109,
+        "band_09": 0.15766,
+        "band_10": 0.287338,
+        "band_11": 0.339116,
+        "band_12": 0.495381,
+        "band_13": 0.425224,
+        "band_14": 0.19784,
+        "band_15": 0.08674,
+        "band_16": 0.002592
+      }
+    },
+    {
+      "atomicNumber": 36,
+      "symbol": "Kr",
+      "elementCategory": "noble gas",
+      "grid": {
+        "row": 2,
+        "column": 11
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.007577,
+        "band_04": 0.019143,
+        "band_05": 0.3556,
+        "band_06": 0.056697,
+        "band_07": 0.240545,
+        "band_08": 0.237687,
+        "band_09": 0.310003,
+        "band_10": 0.033101,
+        "band_11": 0.050548,
+        "band_12": 0.19671,
+        "band_13": 0.175208,
+        "band_14": 0.539781,
+        "band_15": 0.153739,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 37,
+      "symbol": "Rb",
+      "elementCategory": "alkali metal",
+      "grid": {
+        "row": 2,
+        "column": 12
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.017016,
+        "band_05": 0.128182,
+        "band_06": 0.398106,
+        "band_07": 0.210834,
+        "band_08": 0.112064,
+        "band_09": 0.162944,
+        "band_10": 0.023895,
+        "band_11": 0.022134,
+        "band_12": 0.027119,
+        "band_13": 0.0333,
+        "band_14": 0.034629,
+        "band_15": 0.231439,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 38,
+      "symbol": "Sr",
+      "elementCategory": "alkaline earth metal",
+      "grid": {
+        "row": 2,
+        "column": 13
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.01542,
+        "band_03": 0.114689,
+        "band_04": 0.254736,
+        "band_05": 0.397773,
+        "band_06": 0.520937,
+        "band_07": 0.112994,
+        "band_08": 0.101296,
+        "band_09": 0.312031,
+        "band_10": 0.196311,
+        "band_11": 0.080558,
+        "band_12": 0.246859,
+        "band_13": 0.217082,
+        "band_14": 0.199468,
+        "band_15": 0.436923,
+        "band_16": 0.00781
+      }
+    },
+    {
+      "atomicNumber": 39,
+      "symbol": "Y",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 14
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.008541,
+        "band_04": 0.083583,
+        "band_05": 0.20339,
+        "band_06": 0.208973,
+        "band_07": 0.609172,
+        "band_08": 0.173945,
+        "band_09": 0.644732,
+        "band_10": 0.129545,
+        "band_11": 0.275806,
+        "band_12": 0.509106,
+        "band_13": 0.33895,
+        "band_14": 0.373446,
+        "band_15": 0.286673,
+        "band_16": 0.002326
+      }
+    },
+    {
+      "atomicNumber": 40,
+      "symbol": "Zr",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 15
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.004254,
+        "band_03": 0.042007,
+        "band_04": 0.116185,
+        "band_05": 0.203789,
+        "band_06": 0.123363,
+        "band_07": 0.302559,
+        "band_08": 0.130409,
+        "band_09": 0.336158,
+        "band_10": 0.623961,
+        "band_11": 0.690927,
+        "band_12": 0.384447,
+        "band_13": 0.483915,
+        "band_14": 0.593121,
+        "band_15": 0.268993,
+        "band_16": 0.003523
+      }
+    },
+    {
+      "atomicNumber": 41,
+      "symbol": "Nb",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 16
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.001994,
+        "band_03": 0.031771,
+        "band_04": 0.079229,
+        "band_05": 0.128415,
+        "band_06": 0.183848,
+        "band_07": 0.380126,
+        "band_08": 0.422399,
+        "band_09": 0.39106,
+        "band_10": 0.554437,
+        "band_11": 0.772881,
+        "band_12": 0.5556,
+        "band_13": 0.691658,
+        "band_14": 0.823995,
+        "band_15": 0.478298,
+        "band_16": 0.003523
+      }
+    },
+    {
+      "atomicNumber": 42,
+      "symbol": "Mo",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 17
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.000532,
+        "band_03": 0.018877,
+        "band_04": 0.053307,
+        "band_05": 0.11665,
+        "band_06": 0.138252,
+        "band_07": 0.308175,
+        "band_08": 0.467298,
+        "band_09": 0.427185,
+        "band_10": 0.279163,
+        "band_11": 0.291193,
+        "band_12": 0.418478,
+        "band_13": 0.42436,
+        "band_14": 0.84995,
+        "band_15": 0.4667,
+        "band_16": 0.00123
+      }
+    },
+    {
+      "atomicNumber": 43,
+      "symbol": "Tc",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 18
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002326,
+        "band_03": 0.024261,
+        "band_04": 0.019276,
+        "band_05": 0.098737,
+        "band_06": 0.018843,
+        "band_07": 0.076869,
+        "band_08": 0.173646,
+        "band_09": 0.298239,
+        "band_10": 0.293918,
+        "band_11": 0.315686,
+        "band_12": 0.573048,
+        "band_13": 0.510502,
+        "band_14": 0.240512,
+        "band_15": 0.678863,
+        "band_16": 0.024161
+      }
+    },
+    {
+      "atomicNumber": 44,
+      "symbol": "Ru",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 19
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002127,
+        "band_03": 0.023928,
+        "band_04": 0.071519,
+        "band_05": 0.136856,
+        "band_06": 0.133001,
+        "band_07": 0.264606,
+        "band_08": 0.16557,
+        "band_09": 0.171054,
+        "band_10": 0.350781,
+        "band_11": 0.738717,
+        "band_12": 0.645729,
+        "band_13": 0.824493,
+        "band_14": 0.901928,
+        "band_15": 0.496544,
+        "band_16": 0.008209
+      }
+    },
+    {
+      "atomicNumber": 45,
+      "symbol": "Rh",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 20
+      },
+      "colorAggregates": {
+        "band_01": 0.00319,
+        "band_02": 0.02127,
+        "band_03": 0.050183,
+        "band_04": 0.204653,
+        "band_05": 0.137753,
+        "band_06": 0.314091,
+        "band_07": 0.232702,
+        "band_08": 0.2557,
+        "band_09": 0.402426,
+        "band_10": 0.771186,
+        "band_11": 0.586142,
+        "band_12": 0.457328,
+        "band_13": 0.477168,
+        "band_14": 0.27451,
+        "band_15": 0.225656,
+        "band_16": 0.006381
+      }
+    },
+    {
+      "atomicNumber": 46,
+      "symbol": "Pd",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 21
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.00319,
+        "band_04": 0.114058,
+        "band_05": 0.042273,
+        "band_06": 0.030309,
+        "band_07": 0.043071,
+        "band_08": 0.059023,
+        "band_09": 0.344566,
+        "band_10": 0.352144,
+        "band_11": 0.396012,
+        "band_12": 0.424327,
+        "band_13": 0.036291,
+        "band_14": 0.171486,
+        "band_15": 0.280359,
+        "band_16": 0.00319
+      }
+    },
+    {
+      "atomicNumber": 47,
+      "symbol": "Ag",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 22
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.008408,
+        "band_04": 0.014988,
+        "band_05": 0.013991,
+        "band_06": 0.031206,
+        "band_07": 0.0,
+        "band_08": 0.0,
+        "band_09": 0.179229,
+        "band_10": 0.105052,
+        "band_11": 0.11665,
+        "band_12": 0.028714,
+        "band_13": 0.070189,
+        "band_14": 0.074443,
+        "band_15": 0.113393,
+        "band_16": 0.000931
+      }
+    },
+    {
+      "atomicNumber": 48,
+      "symbol": "Cd",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 2,
+        "column": 23
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.006381,
+        "band_05": 0.141974,
+        "band_06": 0.042007,
+        "band_07": 0.025523,
+        "band_08": 0.012762,
+        "band_09": 0.009571,
+        "band_10": 0.022333,
+        "band_11": 0.141974,
+        "band_12": 0.142772,
+        "band_13": 0.144367,
+        "band_14": 0.049319,
+        "band_15": 0.038418,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 49,
+      "symbol": "In",
+      "elementCategory": "post-transition metal",
+      "grid": {
+        "row": 2,
+        "column": 24
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.019741,
+        "band_04": 0.050449,
+        "band_05": 0.031904,
+        "band_06": 0.04347,
+        "band_07": 0.094716,
+        "band_08": 0.083549,
+        "band_09": 0.0335,
+        "band_10": 0.012762,
+        "band_11": 0.044666,
+        "band_12": 0.019143,
+        "band_13": 0.361216,
+        "band_14": 0.077468,
+        "band_15": 0.060618,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 50,
+      "symbol": "Sn",
+      "elementCategory": "post-transition metal",
+      "grid": {
+        "row": 2,
+        "column": 25
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.032436,
+        "band_05": 0.144633,
+        "band_06": 0.004187,
+        "band_07": 0.079129,
+        "band_08": 0.058126,
+        "band_09": 0.151844,
+        "band_10": 0.01891,
+        "band_11": 0.032901,
+        "band_12": 0.013825,
+        "band_13": 0.107046,
+        "band_14": 0.057793,
+        "band_15": 0.007444,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 51,
+      "symbol": "Sb",
+      "elementCategory": "metalloid",
+      "grid": {
+        "row": 3,
+        "column": 1
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.043038,
+        "band_04": 0.134962,
+        "band_05": 0.191791,
+        "band_06": 0.280525,
+        "band_07": 0.668993,
+        "band_08": 0.38119,
+        "band_09": 0.40113,
+        "band_10": 0.200266,
+        "band_11": 0.681389,
+        "band_12": 0.509438,
+        "band_13": 0.607677,
+        "band_14": 0.522665,
+        "band_15": 0.243403,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 52,
+      "symbol": "Te",
+      "elementCategory": "metalloid",
+      "grid": {
+        "row": 3,
+        "column": 2
+      },
+      "colorAggregates": {
+        "band_01": 0.001595,
+        "band_02": 0.006913,
+        "band_03": 0.007544,
+        "band_04": 0.060651,
+        "band_05": 0.060518,
+        "band_06": 0.137089,
+        "band_07": 0.296876,
+        "band_08": 0.201695,
+        "band_09": 0.188435,
+        "band_10": 0.476637,
+        "band_11": 0.84553,
+        "band_12": 0.579262,
+        "band_13": 0.52127,
+        "band_14": 0.467697,
+        "band_15": 0.245165,
+        "band_16": 0.002293
+      }
+    },
+    {
+      "atomicNumber": 53,
+      "symbol": "I",
+      "elementCategory": "halogen",
+      "grid": {
+        "row": 3,
+        "column": 3
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.010834,
+        "band_03": 0.016816,
+        "band_04": 0.060618,
+        "band_05": 0.130575,
+        "band_06": 0.357029,
+        "band_07": 0.162247,
+        "band_08": 0.273247,
+        "band_09": 0.308707,
+        "band_10": 0.401363,
+        "band_11": 0.413925,
+        "band_12": 0.227684,
+        "band_13": 0.424892,
+        "band_14": 0.262645,
+        "band_15": 0.201163,
+        "band_16": 0.004088
+      }
+    },
+    {
+      "atomicNumber": 54,
+      "symbol": "Xe",
+      "elementCategory": "noble gas",
+      "grid": {
+        "row": 3,
+        "column": 4
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.031638,
+        "band_03": 0.072383,
+        "band_04": 0.203855,
+        "band_05": 0.300897,
+        "band_06": 0.315587,
+        "band_07": 0.353938,
+        "band_08": 0.397474,
+        "band_09": 0.227185,
+        "band_10": 0.337787,
+        "band_11": 0.220771,
+        "band_12": 0.637321,
+        "band_13": 0.722399,
+        "band_14": 0.423696,
+        "band_15": 0.198804,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 55,
+      "symbol": "Cs",
+      "elementCategory": "alkali metal",
+      "grid": {
+        "row": 3,
+        "column": 5
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.00668,
+        "band_04": 0.021901,
+        "band_05": 0.074011,
+        "band_06": 0.058591,
+        "band_07": 0.145663,
+        "band_08": 0.047823,
+        "band_09": 0.040778,
+        "band_10": 0.084845,
+        "band_11": 0.038684,
+        "band_12": 0.048521,
+        "band_13": 0.299136,
+        "band_14": 0.035926,
+        "band_15": 0.022665,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 56,
+      "symbol": "Ba",
+      "elementCategory": "alkaline earth metal",
+      "grid": {
+        "row": 3,
+        "column": 6
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.005118,
+        "band_03": 0.054104,
+        "band_04": 0.151213,
+        "band_05": 0.191525,
+        "band_06": 0.021369,
+        "band_07": 0.359521,
+        "band_08": 0.424992,
+        "band_09": 0.209073,
+        "band_10": 0.196909,
+        "band_11": 0.104952,
+        "band_12": 0.173812,
+        "band_13": 0.231638,
+        "band_14": 0.083283,
+        "band_15": 0.134264,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 57,
+      "symbol": "La",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 7
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.001063,
+        "band_03": 0.019143,
+        "band_04": 0.043337,
+        "band_05": 0.161881,
+        "band_06": 0.444965,
+        "band_07": 0.342207,
+        "band_08": 0.742406,
+        "band_09": 0.451246,
+        "band_10": 0.287537,
+        "band_11": 0.567531,
+        "band_12": 0.655932,
+        "band_13": 0.968062,
+        "band_14": 0.713892,
+        "band_15": 0.565171,
+        "band_16": 0.012895
+      }
+    },
+    {
+      "atomicNumber": 58,
+      "symbol": "Ce",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 8
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.016617,
+        "band_04": 0.051047,
+        "band_05": 0.132336,
+        "band_06": 0.176005,
+        "band_07": 0.450316,
+        "band_08": 0.453041,
+        "band_09": 0.596245,
+        "band_10": 0.747723,
+        "band_11": 0.767099,
+        "band_12": 0.614224,
+        "band_13": 0.619043,
+        "band_14": 0.932502,
+        "band_15": 0.642971,
+        "band_16": 0.026952
+      }
+    },
+    {
+      "atomicNumber": 59,
+      "symbol": "Pr",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 9
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.016982,
+        "band_04": 0.040977,
+        "band_05": 0.112463,
+        "band_06": 0.241343,
+        "band_07": 0.338086,
+        "band_08": 0.340213,
+        "band_09": 0.359422,
+        "band_10": 0.372915,
+        "band_11": 0.500665,
+        "band_12": 0.859787,
+        "band_13": 0.780857,
+        "band_14": 1.0,
+        "band_15": 0.657627,
+        "band_16": 0.039016
+      }
+    },
+    {
+      "atomicNumber": 60,
+      "symbol": "Nd",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 10
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.001063,
+        "band_04": 0.011964,
+        "band_05": 0.067963,
+        "band_06": 0.086175,
+        "band_07": 0.300332,
+        "band_08": 0.294217,
+        "band_09": 0.278099,
+        "band_10": 0.3778,
+        "band_11": 0.352144,
+        "band_12": 0.597142,
+        "band_13": 0.847624,
+        "band_14": 0.972915,
+        "band_15": 0.669226,
+        "band_16": 0.025224
+      }
+    },
+    {
+      "atomicNumber": 61,
+      "symbol": "Pm",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 11
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.340047,
+        "band_05": 0.338053,
+        "band_06": 0.228116,
+        "band_07": 0.551911,
+        "band_08": 0.258857,
+        "band_09": 0.248687,
+        "band_10": 0.235394,
+        "band_11": 0.448853,
+        "band_12": 0.747225,
+        "band_13": 0.914423,
+        "band_14": 0.617979,
+        "band_15": 0.092655,
+        "band_16": 0.013892
+      }
+    },
+    {
+      "atomicNumber": 62,
+      "symbol": "Sm",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 12
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.000997,
+        "band_03": 0.022134,
+        "band_04": 0.126421,
+        "band_05": 0.286806,
+        "band_06": 0.468927,
+        "band_07": 0.685111,
+        "band_08": 0.601961,
+        "band_09": 0.480558,
+        "band_10": 0.583317,
+        "band_11": 0.734164,
+        "band_12": 0.764274,
+        "band_13": 0.846294,
+        "band_14": 0.920538,
+        "band_15": 0.538983,
+        "band_16": 0.02014
+      }
+    },
+    {
+      "atomicNumber": 63,
+      "symbol": "Eu",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 13
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002127,
+        "band_03": 0.018644,
+        "band_04": 0.116816,
+        "band_05": 0.301795,
+        "band_06": 0.527584,
+        "band_07": 0.631107,
+        "band_08": 0.264074,
+        "band_09": 0.337986,
+        "band_10": 0.514124,
+        "band_11": 0.36896,
+        "band_12": 0.25889,
+        "band_13": 0.448721,
+        "band_14": 0.578996,
+        "band_15": 0.638352,
+        "band_16": 0.021535
+      }
+    },
+    {
+      "atomicNumber": 64,
+      "symbol": "Gd",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 14
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.005184,
+        "band_03": 0.086939,
+        "band_04": 0.190761,
+        "band_05": 0.230774,
+        "band_06": 0.532868,
+        "band_07": 0.813991,
+        "band_08": 0.680126,
+        "band_09": 0.465769,
+        "band_10": 0.694749,
+        "band_11": 0.381688,
+        "band_12": 0.553373,
+        "band_13": 0.522566,
+        "band_14": 0.902958,
+        "band_15": 0.713094,
+        "band_16": 0.050548
+      }
+    },
+    {
+      "atomicNumber": 65,
+      "symbol": "Tb",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 15
+      },
+      "colorAggregates": {
+        "band_01": 0.000233,
+        "band_02": 0.001363,
+        "band_03": 0.011067,
+        "band_04": 0.036391,
+        "band_05": 0.110136,
+        "band_06": 0.205184,
+        "band_07": 0.735759,
+        "band_08": 0.904786,
+        "band_09": 0.878598,
+        "band_10": 0.963942,
+        "band_11": 0.944566,
+        "band_12": 0.752277,
+        "band_13": 0.898937,
+        "band_14": 0.959089,
+        "band_15": 0.545065,
+        "band_16": 0.01326
+      }
+    },
+    {
+      "atomicNumber": 66,
+      "symbol": "Dy",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 16
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.019541,
+        "band_04": 0.068727,
+        "band_05": 0.189764,
+        "band_06": 0.461815,
+        "band_07": 0.662313,
+        "band_08": 0.374909,
+        "band_09": 0.533965,
+        "band_10": 0.912296,
+        "band_11": 0.850947,
+        "band_12": 0.938817,
+        "band_13": 0.852144,
+        "band_14": 0.878199,
+        "band_15": 0.527949,
+        "band_16": 0.020871
+      }
+    },
+    {
+      "atomicNumber": 67,
+      "symbol": "Ho",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 17
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.014158,
+        "band_04": 0.148687,
+        "band_05": 0.173712,
+        "band_06": 0.232137,
+        "band_07": 0.597009,
+        "band_08": 0.742439,
+        "band_09": 0.791293,
+        "band_10": 0.725291,
+        "band_11": 0.769126,
+        "band_12": 0.591791,
+        "band_13": 0.63772,
+        "band_14": 0.618711,
+        "band_15": 0.327883,
+        "band_16": 0.027916
+      }
+    },
+    {
+      "atomicNumber": 68,
+      "symbol": "Er",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 18
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.01336,
+        "band_04": 0.040346,
+        "band_05": 0.086673,
+        "band_06": 0.174875,
+        "band_07": 0.329977,
+        "band_08": 0.450415,
+        "band_09": 0.854237,
+        "band_10": 0.866002,
+        "band_11": 0.929811,
+        "band_12": 0.706946,
+        "band_13": 0.702725,
+        "band_14": 0.57112,
+        "band_15": 0.392024,
+        "band_16": 0.00658
+      }
+    },
+    {
+      "atomicNumber": 69,
+      "symbol": "Tm",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 19
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.006381,
+        "band_04": 0.08561,
+        "band_05": 0.099369,
+        "band_06": 0.280093,
+        "band_07": 0.219375,
+        "band_08": 0.172981,
+        "band_09": 0.326986,
+        "band_10": 0.660186,
+        "band_11": 0.585012,
+        "band_12": 0.709771,
+        "band_13": 0.580625,
+        "band_14": 0.387272,
+        "band_15": 0.186108,
+        "band_16": 0.001994
+      }
+    },
+    {
+      "atomicNumber": 70,
+      "symbol": "Yb",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 20
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.08428,
+        "band_05": 0.132569,
+        "band_06": 0.165138,
+        "band_07": 0.250482,
+        "band_08": 0.398571,
+        "band_09": 0.272516,
+        "band_10": 0.450249,
+        "band_11": 0.22672,
+        "band_12": 0.36125,
+        "band_13": 0.328082,
+        "band_14": 0.407178,
+        "band_15": 0.272915,
+        "band_16": 0.001595
+      }
+    },
+    {
+      "atomicNumber": 71,
+      "symbol": "Lu",
+      "elementCategory": "lanthanide",
+      "grid": {
+        "row": 3,
+        "column": 21
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.002127,
+        "band_05": 0.072316,
+        "band_06": 0.244334,
+        "band_07": 0.169359,
+        "band_08": 0.075507,
+        "band_09": 0.177102,
+        "band_10": 0.103124,
+        "band_11": 0.281987,
+        "band_12": 0.151379,
+        "band_13": 0.201894,
+        "band_14": 0.091692,
+        "band_15": 0.136058,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 72,
+      "symbol": "Hf",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 3,
+        "column": 22
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.004985,
+        "band_03": 0.037355,
+        "band_04": 0.140312,
+        "band_05": 0.19764,
+        "band_06": 0.366667,
+        "band_07": 0.575208,
+        "band_08": 0.335793,
+        "band_09": 0.213194,
+        "band_10": 0.525789,
+        "band_11": 0.814423,
+        "band_12": 0.717115,
+        "band_13": 0.89116,
+        "band_14": 0.864041,
+        "band_15": 0.671419,
+        "band_16": 0.041176
+      }
+    },
+    {
+      "atomicNumber": 73,
+      "symbol": "Ta",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 3,
+        "column": 23
+      },
+      "colorAggregates": {
+        "band_01": 0.000698,
+        "band_02": 0.008009,
+        "band_03": 0.074078,
+        "band_04": 0.08006,
+        "band_05": 0.287305,
+        "band_06": 0.289365,
+        "band_07": 0.345663,
+        "band_08": 0.291226,
+        "band_09": 0.31552,
+        "band_10": 0.637687,
+        "band_11": 0.74101,
+        "band_12": 0.661648,
+        "band_13": 0.830741,
+        "band_14": 0.536358,
+        "band_15": 0.225823,
+        "band_16": 0.00123
+      }
+    },
+    {
+      "atomicNumber": 74,
+      "symbol": "W",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 3,
+        "column": 24
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002858,
+        "band_03": 0.047458,
+        "band_04": 0.090196,
+        "band_05": 0.10123,
+        "band_06": 0.128747,
+        "band_07": 0.25334,
+        "band_08": 0.206746,
+        "band_09": 0.444068,
+        "band_10": 0.571685,
+        "band_11": 0.831605,
+        "band_12": 0.877002,
+        "band_13": 0.775374,
+        "band_14": 0.537687,
+        "band_15": 0.288701,
+        "band_16": 0.003822
+      }
+    },
+    {
+      "atomicNumber": 75,
+      "symbol": "Re",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 3,
+        "column": 25
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.00319,
+        "band_04": 0.048388,
+        "band_05": 0.140744,
+        "band_06": 0.186275,
+        "band_07": 0.132104,
+        "band_08": 0.149718,
+        "band_09": 0.116284,
+        "band_10": 0.375773,
+        "band_11": 0.40103,
+        "band_12": 0.376171,
+        "band_13": 0.347391,
+        "band_14": 0.542473,
+        "band_15": 0.277135,
+        "band_16": 0.000698
+      }
+    },
+    {
+      "atomicNumber": 76,
+      "symbol": "Os",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 4,
+        "column": 1
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.001396,
+        "band_03": 0.017149,
+        "band_04": 0.021336,
+        "band_05": 0.079495,
+        "band_06": 0.116717,
+        "band_07": 0.140346,
+        "band_08": 0.198372,
+        "band_09": 0.345796,
+        "band_10": 0.44543,
+        "band_11": 0.644666,
+        "band_12": 0.607444,
+        "band_13": 0.707012,
+        "band_14": 0.828182,
+        "band_15": 0.540711,
+        "band_16": 0.013958
+      }
+    },
+    {
+      "atomicNumber": 77,
+      "symbol": "Ir",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 4,
+        "column": 2
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.007843,
+        "band_03": 0.107644,
+        "band_04": 0.217248,
+        "band_05": 0.113393,
+        "band_06": 0.074975,
+        "band_07": 0.114855,
+        "band_08": 0.131339,
+        "band_09": 0.135261,
+        "band_10": 0.511931,
+        "band_11": 0.781157,
+        "band_12": 0.71429,
+        "band_13": 0.815753,
+        "band_14": 0.758391,
+        "band_15": 0.829744,
+        "band_16": 0.085975
+      }
+    },
+    {
+      "atomicNumber": 78,
+      "symbol": "Pt",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 4,
+        "column": 3
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002326,
+        "band_03": 0.008308,
+        "band_04": 0.085876,
+        "band_05": 0.04543,
+        "band_06": 0.139282,
+        "band_07": 0.157993,
+        "band_08": 0.234497,
+        "band_09": 0.196245,
+        "band_10": 0.363543,
+        "band_11": 0.412795,
+        "band_12": 0.186341,
+        "band_13": 0.372117,
+        "band_14": 0.548521,
+        "band_15": 0.481821,
+        "band_16": 0.005317
+      }
+    },
+    {
+      "atomicNumber": 79,
+      "symbol": "Au",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 4,
+        "column": 4
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.000665,
+        "band_04": 0.036557,
+        "band_05": 0.061682,
+        "band_06": 0.124161,
+        "band_07": 0.064739,
+        "band_08": 0.181722,
+        "band_09": 0.020206,
+        "band_10": 0.057361,
+        "band_11": 0.1112,
+        "band_12": 0.186108,
+        "band_13": 0.037222,
+        "band_14": 0.161316,
+        "band_15": 0.277401,
+        "band_16": 0.002094
+      }
+    },
+    {
+      "atomicNumber": 80,
+      "symbol": "Hg",
+      "elementCategory": "transition metal",
+      "grid": {
+        "row": 4,
+        "column": 5
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.002659,
+        "band_04": 0.002659,
+        "band_05": 0.01429,
+        "band_06": 0.012296,
+        "band_07": 0.024992,
+        "band_08": 0.203124,
+        "band_09": 0.092888,
+        "band_10": 0.141542,
+        "band_11": 0.020306,
+        "band_12": 0.064307,
+        "band_13": 0.036158,
+        "band_14": 0.200066,
+        "band_15": 0.047092,
+        "band_16": 0.004885
+      }
+    },
+    {
+      "atomicNumber": 81,
+      "symbol": "Tl",
+      "elementCategory": "post-transition metal",
+      "grid": {
+        "row": 4,
+        "column": 6
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.015952,
+        "band_06": 0.003988,
+        "band_07": 0.005583,
+        "band_08": 0.0,
+        "band_09": 0.0,
+        "band_10": 0.135593,
+        "band_11": 0.00319,
+        "band_12": 0.0,
+        "band_13": 0.0,
+        "band_14": 0.000399,
+        "band_15": 0.002792,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 82,
+      "symbol": "Pb",
+      "elementCategory": "post-transition metal",
+      "grid": {
+        "row": 4,
+        "column": 7
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.066201,
+        "band_05": 0.035892,
+        "band_06": 0.057428,
+        "band_07": 0.3334,
+        "band_08": 0.070189,
+        "band_09": 0.195613,
+        "band_10": 0.15653,
+        "band_11": 0.499501,
+        "band_12": 0.110269,
+        "band_13": 0.119641,
+        "band_14": 0.244068,
+        "band_15": 0.442473,
+        "band_16": 0.004187
+      }
+    },
+    {
+      "atomicNumber": 83,
+      "symbol": "Bi",
+      "elementCategory": "post-transition metal",
+      "grid": {
+        "row": 4,
+        "column": 8
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.023928,
+        "band_05": 0.027119,
+        "band_06": 0.0,
+        "band_07": 0.124427,
+        "band_08": 0.075507,
+        "band_09": 0.096245,
+        "band_10": 0.085012,
+        "band_11": 0.11007,
+        "band_12": 0.016683,
+        "band_13": 0.191293,
+        "band_14": 0.158591,
+        "band_15": 0.081223,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 84,
+      "symbol": "Po",
+      "elementCategory": "metalloid",
+      "grid": {
+        "row": 4,
+        "column": 9
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.0,
+        "band_06": 0.0,
+        "band_07": 0.0,
+        "band_08": 0.137188,
+        "band_09": 0.0,
+        "band_10": 0.135593,
+        "band_11": 0.0,
+        "band_12": 0.124427,
+        "band_13": 0.097906,
+        "band_14": 0.13659,
+        "band_15": 0.135593,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 85,
+      "symbol": "At",
+      "elementCategory": "halogen",
+      "grid": {
+        "row": 4,
+        "column": 10
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.0,
+        "band_06": 0.0,
+        "band_07": 0.0,
+        "band_08": 0.0,
+        "band_09": 0.0,
+        "band_10": 0.0,
+        "band_11": 0.0,
+        "band_12": 0.0,
+        "band_13": 0.0,
+        "band_14": 0.0,
+        "band_15": 0.0,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 86,
+      "symbol": "Rn",
+      "elementCategory": "noble gas",
+      "grid": {
+        "row": 4,
+        "column": 11
+      },
+      "colorAggregates": {
+        "band_01": 0.109006,
+        "band_02": 0.226786,
+        "band_03": 0.207544,
+        "band_04": 0.214523,
+        "band_05": 0.196477,
+        "band_06": 0.057361,
+        "band_07": 0.037321,
+        "band_08": 0.044766,
+        "band_09": 0.02127,
+        "band_10": 0.006913,
+        "band_11": 0.009571,
+        "band_12": 0.032436,
+        "band_13": 0.147258,
+        "band_14": 0.220173,
+        "band_15": 0.093586,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 87,
+      "symbol": "Fr",
+      "elementCategory": "alkali metal",
+      "grid": {
+        "row": 4,
+        "column": 12
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.142506,
+        "band_03": 0.011698,
+        "band_04": 0.017547,
+        "band_05": 0.181024,
+        "band_06": 0.193187,
+        "band_07": 0.330342,
+        "band_08": 0.268528,
+        "band_09": 0.206946,
+        "band_10": 0.185942,
+        "band_11": 0.084513,
+        "band_12": 0.03998,
+        "band_13": 0.0,
+        "band_14": 0.060618,
+        "band_15": 0.103157,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 88,
+      "symbol": "Ra",
+      "elementCategory": "alkaline earth metal",
+      "grid": {
+        "row": 4,
+        "column": 13
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.025324,
+        "band_03": 0.057095,
+        "band_04": 0.115653,
+        "band_05": 0.489997,
+        "band_06": 0.288734,
+        "band_07": 0.032436,
+        "band_08": 0.079761,
+        "band_09": 0.193553,
+        "band_10": 0.18664,
+        "band_11": 0.075507,
+        "band_12": 0.140379,
+        "band_13": 0.111133,
+        "band_14": 0.113792,
+        "band_15": 0.011167,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 89,
+      "symbol": "Ac",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 14
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.014357,
+        "band_05": 0.032436,
+        "band_06": 0.141841,
+        "band_07": 0.056464,
+        "band_08": 0.429678,
+        "band_09": 0.231107,
+        "band_10": 0.367896,
+        "band_11": 0.049186,
+        "band_12": 0.230641,
+        "band_13": 0.39445,
+        "band_14": 0.305916,
+        "band_15": 0.273579,
+        "band_16": 0.001396
+      }
+    },
+    {
+      "atomicNumber": 90,
+      "symbol": "Th",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 15
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.004653,
+        "band_03": 0.010568,
+        "band_04": 0.026919,
+        "band_05": 0.136856,
+        "band_06": 0.29784,
+        "band_07": 0.433765,
+        "band_08": 0.540512,
+        "band_09": 0.636191,
+        "band_10": 0.718079,
+        "band_11": 0.673048,
+        "band_12": 0.664872,
+        "band_13": 0.508109,
+        "band_14": 0.821702,
+        "band_15": 0.602958,
+        "band_16": 0.038917
+      }
+    },
+    {
+      "atomicNumber": 91,
+      "symbol": "Pa",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 16
+      },
+      "colorAggregates": {
+        "band_01": 0.004221,
+        "band_02": 0.011731,
+        "band_03": 0.164307,
+        "band_04": 0.036158,
+        "band_05": 0.09558,
+        "band_06": 0.167697,
+        "band_07": 0.190296,
+        "band_08": 0.0,
+        "band_09": 0.0,
+        "band_10": 0.0,
+        "band_11": 0.0,
+        "band_12": 0.0,
+        "band_13": 0.071785,
+        "band_14": 0.086009,
+        "band_15": 0.440578,
+        "band_16": 0.056198
+      }
+    },
+    {
+      "atomicNumber": 92,
+      "symbol": "U",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 17
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.001861,
+        "band_03": 0.076105,
+        "band_04": 0.166102,
+        "band_05": 0.224393,
+        "band_06": 0.519641,
+        "band_07": 0.791093,
+        "band_08": 0.342439,
+        "band_09": 0.465238,
+        "band_10": 0.665503,
+        "band_11": 0.940479,
+        "band_12": 0.781555,
+        "band_13": 0.924859,
+        "band_14": 0.90319,
+        "band_15": 0.546893,
+        "band_16": 0.002459
+      }
+    },
+    {
+      "atomicNumber": 93,
+      "symbol": "Np",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 18
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.00319,
+        "band_03": 0.109472,
+        "band_04": 0.075573,
+        "band_05": 0.022333,
+        "band_06": 0.169492,
+        "band_07": 0.248455,
+        "band_08": 0.197807,
+        "band_09": 0.111665,
+        "band_10": 0.135593,
+        "band_11": 0.041476,
+        "band_12": 0.0,
+        "band_13": 0.0,
+        "band_14": 0.0,
+        "band_15": 0.0,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 94,
+      "symbol": "Pu",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 19
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.003722,
+        "band_03": 0.019973,
+        "band_04": 0.045032,
+        "band_05": 0.500233,
+        "band_06": 0.204453,
+        "band_07": 0.073646,
+        "band_08": 0.119907,
+        "band_09": 0.18212,
+        "band_10": 0.03669,
+        "band_11": 0.011665,
+        "band_12": 0.005749,
+        "band_13": 0.127152,
+        "band_14": 0.219076,
+        "band_15": 0.516916,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 95,
+      "symbol": "Am",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 20
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.010535,
+        "band_06": 0.020306,
+        "band_07": 0.135593,
+        "band_08": 0.0,
+        "band_09": 0.080824,
+        "band_10": 0.079827,
+        "band_11": 0.039182,
+        "band_12": 0.054869,
+        "band_13": 0.368129,
+        "band_14": 0.196776,
+        "band_15": 0.065736,
+        "band_16": 0.0
+      }
+    },
+    {
+      "atomicNumber": 96,
+      "symbol": "Cm",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 21
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.010635,
+        "band_03": 0.0,
+        "band_04": 0.402659,
+        "band_05": 0.349718,
+        "band_06": 0.254736,
+        "band_07": 0.276504,
+        "band_08": 0.178664,
+        "band_09": 0.0,
+        "band_10": 0.0,
+        "band_11": 0.0,
+        "band_12": 0.0,
+        "band_13": 0.105816,
+        "band_14": 0.466268,
+        "band_15": 0.427052,
+        "band_16": 0.065936
+      }
+    },
+    {
+      "atomicNumber": 97,
+      "symbol": "Bk",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 22
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.011698,
+        "band_03": 0.014889,
+        "band_04": 0.0,
+        "band_05": 0.0,
+        "band_06": 0.0,
+        "band_07": 0.005716,
+        "band_08": 0.148222,
+        "band_09": 0.702725,
+        "band_10": 0.488102,
+        "band_11": 0.457827,
+        "band_12": 0.0,
+        "band_13": 0.0,
+        "band_14": 0.317979,
+        "band_15": 0.175474,
+        "band_16": 0.002127
+      }
+    },
+    {
+      "atomicNumber": 98,
+      "symbol": "Cf",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 23
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.002127,
+        "band_03": 0.062944,
+        "band_04": 0.104154,
+        "band_05": 0.138119,
+        "band_06": 0.0,
+        "band_07": 0.0,
+        "band_08": 0.136657,
+        "band_09": 0.001063,
+        "band_10": 0.186441,
+        "band_11": 0.27883,
+        "band_12": 0.0,
+        "band_13": 0.0,
+        "band_14": 0.141309,
+        "band_15": 0.151678,
+        "band_16": 0.004786
+      }
+    },
+    {
+      "atomicNumber": 99,
+      "symbol": "Es",
+      "elementCategory": "actinide",
+      "grid": {
+        "row": 4,
+        "column": 24
+      },
+      "colorAggregates": {
+        "band_01": 0.0,
+        "band_02": 0.0,
+        "band_03": 0.0,
+        "band_04": 0.0,
+        "band_05": 0.0,
+        "band_06": 0.0,
+        "band_07": 0.0,
+        "band_08": 0.0,
+        "band_09": 0.103157,
+        "band_10": 0.030309,
+        "band_11": 0.492389,
+        "band_12": 0.131871,
+        "band_13": 0.0,
+        "band_14": 0.0,
+        "band_15": 0.105816,
+        "band_16": 0.0
+      }
+    }
+  ]
+}
