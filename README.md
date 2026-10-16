@@ -1,5 +1,3 @@
-<img width="975" height="576" alt="sp_lores-2" src="https://github.com/user-attachments/assets/9f86784c-231c-4be8-89af-87858de974b9" />
-
 <img width="3840" height="2160" alt="periodic table of elements preview" src="https://github.com/user-attachments/assets/95dd3476-a4c6-4e10-8750-2063c64016ba" />
 
 # Element Spectrum Sequencer
@@ -55,8 +53,11 @@ browser synthesis settings and are not embedded in MIDI.
 The WAV export recreates the Tone.js master mix in an offline audio context and
 encodes it as stereo 24-bit PCM. It includes the selected tempo, master level,
 dim-value lift setting, stereo panning, limiter, and current mute/solo state.
-
 The renderer requests 192 kHz first. If that sample rate is unsupported or the
 browser cannot allocate the full render, it retries at 96 kHz, 48 kHz, and
 44.1 kHz in that order. A 192 kHz export of the default 120 BPM sequence is
 roughly 218 MiB, so rendering may take a while and needs substantial memory.
+
+## Analysis Image
+
+<img width="975" height="576" alt="sp_lores-2" src="https://github.com/user-attachments/assets/9f86784c-231c-4be8-89af-87858de974b9" />
