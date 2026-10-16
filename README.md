@@ -1,3 +1,5 @@
+<img width="975" height="576" alt="sp_lores-2" src="https://github.com/user-attachments/assets/9f86784c-231c-4be8-89af-87858de974b9" />
+
 <img width="3840" height="2160" alt="periodic table of elements preview" src="https://github.com/user-attachments/assets/95dd3476-a4c6-4e10-8750-2063c64016ba" />
 
 # Element Spectrum Sequencer
