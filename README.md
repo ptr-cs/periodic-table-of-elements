@@ -1,3 +1,5 @@
+<img width="3840" height="2160" alt="periodic table of elements preview" src="https://github.com/user-attachments/assets/95dd3476-a4c6-4e10-8750-2063c64016ba" />
+
 # Element Spectrum Sequencer
 
 A local Vite + TypeScript application that sonifies the 16 normalized color
