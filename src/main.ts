@@ -1,21 +1,47 @@
 import "./style.css";
 import {
+  AUDIO_SAMPLE_RATES,
   downloadToneAudio,
   type AudioExportProgress,
+  type AudioSampleRate,
 } from "./audio-export";
 import { ACTIVE_NOTE_COUNT, REST_COUNT, elements } from "./data";
 import { downloadMidiFile } from "./midi";
+import {
+  LOW_MID_COMPRESSION_RATIO,
+  LOW_MID_PEAK_FRACTION,
+} from "./low-mid-compression";
+import {
+  DEFAULT_TONAL_SETTINGS,
+  getMusicKey,
+  MUSIC_KEYS,
+  STARTING_OCTAVES,
+  type TonalSettings,
+} from "./music";
 import {
   SpectrumSequencer,
   type PlaybackPosition,
   type PlaybackState,
 } from "./sequencer";
-import { STEPS_PER_ELEMENT, TRACKS } from "./tracks";
-import { DIM_VELOCITY_CUTOFF, DIM_VELOCITY_FLOOR } from "./velocity";
+import {
+  createTrackPitches,
+  LOW_MID_TRACK_INDICES,
+  STEPS_PER_ELEMENT,
+  TRACKS,
+} from "./tracks";
+import {
+  DIM_VELOCITY_CUTOFF,
+  DIM_VELOCITY_FLOOR,
+  LATE_PEAK_FRACTION,
+  LATE_PEAK_REDUCTION,
+} from "./velocity";
 
 const DEFAULT_BPM = 120;
 const DIM_FLOOR_PERCENT = DIM_VELOCITY_FLOOR * 100;
 const DIM_CUTOFF_PERCENT = DIM_VELOCITY_CUTOFF * 100;
+const LATE_PEAK_PERCENT = LATE_PEAK_FRACTION * 100;
+const LATE_PEAK_REDUCTION_PERCENT = LATE_PEAK_REDUCTION * 100;
+const defaultTrackPitches = createTrackPitches(DEFAULT_TONAL_SETTINGS);
 
 function formatBrightness(value: number): string {
   if (value === 0) {
@@ -45,6 +71,24 @@ const spectrumRule = TRACKS.map(
   (track) => `<span style="--track-color:${track.color}"></span>`,
 ).join("");
 
+const keyOptions = ["major", "minor"]
+  .map((mode) => {
+    const label = mode === "major" ? "Major keys" : "Minor keys";
+    const options = MUSIC_KEYS.filter((key) => key.mode === mode)
+      .map(
+        (key) =>
+          `<option value="${key.id}"${key.id === DEFAULT_TONAL_SETTINGS.keyId ? " selected" : ""}>${key.label}</option>`,
+      )
+      .join("");
+    return `<optgroup label="${label}">${options}</optgroup>`;
+  })
+  .join("");
+
+const octaveOptions = STARTING_OCTAVES.map(
+  (octave) =>
+    `<option value="${octave}"${octave === DEFAULT_TONAL_SETTINGS.startingOctave ? " selected" : ""}>Octave ${octave}</option>`,
+).join("");
+
 const bandCards = TRACKS.map(
   (track) => `
     <article class="band-card" data-band-card="${track.index}" style="--track-color:${track.color}">
@@ -56,7 +100,7 @@ const bandCards = TRACKS.map(
         <span data-band-meter="${track.index}"></span>
       </div>
       <div class="band-card__name">${track.name}</div>
-      <div class="band-card__voice">${track.note} · ${track.oscillatorLabel}</div>
+      <div class="band-card__voice"><span data-band-note="${track.index}">${defaultTrackPitches[track.index].note}</span> · ${track.oscillatorLabel}</div>
     </article>
   `,
 ).join("");
@@ -97,7 +141,7 @@ const matrixRows = TRACKS.map((track) => {
         <span class="lane-label__swatch" aria-hidden="true"></span>
         <span class="lane-label__identity">
           <strong>T${String(track.index + 1).padStart(2, "0")} · ${track.name}</strong>
-          <small>${track.bandKey} · ${track.note}</small>
+          <small>${track.bandKey} · <span data-lane-note="${track.index}">${defaultTrackPitches[track.index].note}</span></small>
         </span>
         <span class="lane-label__actions">
           <button
@@ -165,10 +209,51 @@ app.innerHTML = `
           <input id="bpm-input" type="range" min="40" max="220" value="${DEFAULT_BPM}" step="1" />
         </label>
 
+        <div class="pitch-controls" aria-label="Key and octave controls">
+          <label class="select-control">
+            <span>Key</span>
+            <select id="key-input">${keyOptions}</select>
+          </label>
+          <label class="select-control select-control--octave">
+            <span>Starting octave</span>
+            <select id="octave-input">${octaveOptions}</select>
+          </label>
+        </div>
+
         <div class="volume-stack">
           <label class="range-control range-control--volume">
             <span class="range-control__label">Master <output id="volume-output">72%</output></span>
             <input id="volume-input" type="range" min="0" max="100" value="72" step="1" />
+          </label>
+          <label class="velocity-toggle">
+            <input
+              id="reverb-input"
+              type="checkbox"
+              role="switch"
+              aria-describedby="reverb-help"
+              checked
+            />
+            <span class="velocity-toggle__switch" aria-hidden="true"></span>
+            <span class="velocity-toggle__copy">
+              <strong>Reverb</strong>
+              <small id="reverb-help">Subtle ambience · playback + WAV</small>
+            </span>
+            <span class="velocity-toggle__state" id="reverb-state" aria-hidden="true">On</span>
+          </label>
+          <label class="velocity-toggle">
+            <input
+              id="low-mid-input"
+              type="checkbox"
+              role="switch"
+              aria-describedby="low-mid-help"
+              checked
+            />
+            <span class="velocity-toggle__switch" aria-hidden="true"></span>
+            <span class="velocity-toggle__copy">
+              <strong>Limit low mids</strong>
+              <small id="low-mid-help"></small>
+            </span>
+            <span class="velocity-toggle__state" id="low-mid-state" aria-hidden="true">On</span>
           </label>
           <label class="velocity-toggle">
             <input
@@ -184,21 +269,43 @@ app.innerHTML = `
             </span>
             <span class="velocity-toggle__state" id="dim-lift-state" aria-hidden="true">Off</span>
           </label>
+          <label class="velocity-toggle">
+            <input
+              id="late-peak-input"
+              type="checkbox"
+              role="switch"
+              aria-describedby="late-peak-help"
+            />
+            <span class="velocity-toggle__switch" aria-hidden="true"></span>
+            <span class="velocity-toggle__copy">
+              <strong>Compress late peaks</strong>
+              <small id="late-peak-help">Top ${LATE_PEAK_PERCENT}% post-beat 1 · peak −${LATE_PEAK_REDUCTION_PERCENT}%</small>
+            </span>
+            <span class="velocity-toggle__state" id="late-peak-state" aria-hidden="true">Off</span>
+          </label>
         </div>
 
         <div class="transport__exports" aria-label="Export options">
-          <button
-            class="control-button control-button--export control-button--audio"
-            id="audio-export-button"
-            type="button"
-            title="Offline-render a stereo 24-bit WAV. Tries 192 kHz first and falls back if needed."
-          >
-            <span aria-hidden="true">↓</span>
-            <span class="control-button__copy">
-              <strong>Export WAV</strong>
-              <small>192 kHz · 24-bit</small>
-            </span>
-          </button>
+          <div class="audio-export-controls">
+            <label class="select-control">
+              <span>WAV sample rate</span>
+              <select id="sample-rate-input">
+                ${AUDIO_SAMPLE_RATES.map((rate) => `<option value="${rate}">${rate / 1000} kHz${rate === 48_000 ? " · faster" : ""}</option>`).join("")}
+              </select>
+            </label>
+            <button
+              class="control-button control-button--export control-button--audio"
+              id="audio-export-button"
+              type="button"
+              title="Offline-render a stereo 24-bit WAV. Tries 192 kHz first and falls back if needed."
+            >
+              <span aria-hidden="true">↓</span>
+              <span class="control-button__copy">
+                <strong>Export WAV</strong>
+                <small id="audio-export-format">192 kHz · 24-bit</small>
+              </span>
+            </button>
+          </div>
           <button class="control-button control-button--export" id="export-button" type="button">
             <span aria-hidden="true">↓</span>
             <span>Export MIDI</span>
@@ -279,16 +386,18 @@ app.innerHTML = `
         <h2>24-bit WAV + Standard MIDI</h2>
       </div>
       <dl>
-        <div><dt>WAV target</dt><dd>192 kHz</dd></div>
+        <div><dt>WAV target</dt><dd id="wav-target">192 kHz</dd></div>
         <div><dt>WAV depth</dt><dd>24-bit</dd></div>
         <div><dt>MIDI tracks</dt><dd>16</dd></div>
         <div><dt>Active notes</dt><dd>${ACTIVE_NOTE_COUNT.toLocaleString()}</dd></div>
       </dl>
       <p>
-        WAV export offline-renders the same Tone.js voices, stereo positions, limiter, master level,
-        velocity mapping, and mute/solo mix. It tries 192 kHz first, then safely falls back to the
-        highest rate the browser can complete. MIDI export retains all ${REST_COUNT.toLocaleString()}
-        timed rests and adds a conductor track for tempo, 4/4 meter, and element markers.
+        WAV export offline-renders the same Tone.js voices, stereo positions, reverb, limiter, master level,
+        selected key and octave, velocity mapping, low-mid limiting, late-peak compression, and mute/solo mix. Choose
+        48 kHz for smaller, faster exports, or up to 192 kHz. If needed, the renderer falls back to
+        a lower rate the browser can complete. MIDI export retains all
+        ${REST_COUNT.toLocaleString()} timed rests and adds a conductor track for tempo, key
+        signature, 4/4 meter, and element markers.
       </p>
     </section>
   </main>
@@ -306,13 +415,25 @@ const playIcon = required<HTMLSpanElement>("#play-icon");
 const playLabel = required<HTMLSpanElement>("#play-label");
 const stopButton = required<HTMLButtonElement>("#stop-button");
 const audioExportButton = required<HTMLButtonElement>("#audio-export-button");
+const sampleRateInput = required<HTMLSelectElement>("#sample-rate-input");
+const audioExportFormat = required<HTMLElement>("#audio-export-format");
+const wavTarget = required<HTMLElement>("#wav-target");
 const exportButton = required<HTMLButtonElement>("#export-button");
 const bpmInput = required<HTMLInputElement>("#bpm-input");
 const bpmOutput = required<HTMLOutputElement>("#bpm-output");
+const keyInput = required<HTMLSelectElement>("#key-input");
+const octaveInput = required<HTMLSelectElement>("#octave-input");
 const volumeInput = required<HTMLInputElement>("#volume-input");
 const volumeOutput = required<HTMLOutputElement>("#volume-output");
+const reverbInput = required<HTMLInputElement>("#reverb-input");
+const reverbState = required<HTMLSpanElement>("#reverb-state");
+const lowMidInput = required<HTMLInputElement>("#low-mid-input");
+const lowMidState = required<HTMLSpanElement>("#low-mid-state");
+const lowMidHelp = required<HTMLElement>("#low-mid-help");
 const dimLiftInput = required<HTMLInputElement>("#dim-lift-input");
 const dimLiftState = required<HTMLSpanElement>("#dim-lift-state");
+const latePeakInput = required<HTMLInputElement>("#late-peak-input");
+const latePeakState = required<HTMLSpanElement>("#late-peak-state");
 const velocityMapping = required<HTMLSpanElement>("#velocity-mapping");
 const elementSeek = required<HTMLInputElement>("#element-seek");
 const seekLabel = required<HTMLLabelElement>("#seek-label");
@@ -347,11 +468,19 @@ const rulerByElement = Array.from(
 const bandCardElements = Array.from(
   document.querySelectorAll<HTMLElement>("[data-band-card]"),
 );
+const bandNoteLabels = Array.from(
+  document.querySelectorAll<HTMLElement>("[data-band-note]"),
+);
+const laneNoteLabels = Array.from(
+  document.querySelectorAll<HTMLElement>("[data-lane-note]"),
+);
 
 let currentPosition: PlaybackPosition = { step: 0, elementIndex: 0, bandIndex: 0 };
 let previousElementIndex = -1;
 let previousBandIndex = -1;
 let hasStartedAudio = false;
+let tonalSettings: TonalSettings = { ...DEFAULT_TONAL_SETTINGS };
+let trackPitches = createTrackPitches(tonalSettings);
 
 function updatePlaybackState(state: PlaybackState): void {
   const playing = state === "playing";
@@ -363,8 +492,12 @@ function updatePlaybackState(state: PlaybackState): void {
 
   if (state === "playing") {
     hasStartedAudio = true;
-    statusText.textContent = dimLiftInput.checked
-      ? "Playing — dim note velocities are lifted"
+    const activeMappings = [
+      dimLiftInput.checked ? "dim values lifted" : "",
+      latePeakInput.checked ? "late peaks compressed" : "",
+    ].filter(Boolean);
+    statusText.textContent = activeMappings.length > 0
+      ? `Playing — ${activeMappings.join(" · ")}`
       : "Playing — brightness is mapped to note velocity";
     liveStatus.textContent = "Playback started";
   } else if (state === "paused") {
@@ -441,7 +574,7 @@ function updatePosition(position: PlaybackPosition): void {
     ?.classList.add("is-current-step");
   bandCardElements[position.bandIndex]?.classList.add("is-active");
 
-  currentBandDetail.textContent = `Band ${String(track.index + 1).padStart(2, "0")} · ${track.name} · ${track.note}`;
+  currentBandDetail.textContent = `Band ${String(track.index + 1).padStart(2, "0")} · ${track.name} · ${trackPitches[track.index].note}`;
   currentReadout.textContent = `${element.symbol} · Band ${String(track.index + 1).padStart(2, "0")} of 16 · ${formatBrightness(brightness)}`;
   positionLabel.textContent = `Measure ${String(position.elementIndex + 1).padStart(2, "0")} · Step ${String(position.bandIndex + 1).padStart(2, "0")}`;
   progressBar.style.transform = `scaleX(${(position.step + 1) / (elements.length * STEPS_PER_ELEMENT)})`;
@@ -455,7 +588,11 @@ const sequencer = new SpectrumSequencer({
   onStateChange: updatePlaybackState,
 });
 sequencer.setBpm(DEFAULT_BPM);
+sequencer.setReverbEnabled(reverbInput.checked);
+sequencer.setLowMidCompression(lowMidInput.checked);
 sequencer.setDimValueLift(dimLiftInput.checked);
+sequencer.setLatePeakCompression(latePeakInput.checked);
+sequencer.setTonalSettings(tonalSettings);
 updatePosition(currentPosition);
 
 playButton.addEventListener("click", async () => {
@@ -483,23 +620,101 @@ bpmInput.addEventListener("input", () => {
   durationLabel.textContent = formatDuration((elements.length * 4 * 60) / bpm);
 });
 
+function updateTonalSettings(): void {
+  tonalSettings = {
+    keyId: keyInput.value,
+    startingOctave: Number(octaveInput.value),
+  };
+  trackPitches = createTrackPitches(tonalSettings);
+  sequencer.setTonalSettings(tonalSettings);
+  updateLowMidLabel();
+
+  trackPitches.forEach((pitch, index) => {
+    bandNoteLabels[index].textContent = pitch.note;
+    laneNoteLabels[index].textContent = pitch.note;
+  });
+  updatePosition(currentPosition);
+
+  const key = getMusicKey(tonalSettings.keyId);
+  statusText.textContent = `${key.label} · starts in octave ${tonalSettings.startingOctave}`;
+  liveStatus.textContent = `Key changed to ${key.label}, starting octave ${tonalSettings.startingOctave}`;
+}
+
+keyInput.addEventListener("change", updateTonalSettings);
+octaveInput.addEventListener("change", updateTonalSettings);
+
 volumeInput.addEventListener("input", () => {
   const percent = Number(volumeInput.value);
   sequencer.setMasterVolume(percent);
   volumeOutput.value = `${percent}%`;
 });
 
+reverbInput.addEventListener("change", () => {
+  const enabled = reverbInput.checked;
+  sequencer.setReverbEnabled(enabled);
+  reverbState.textContent = enabled ? "On" : "Off";
+  statusText.textContent = enabled ? "Reverb on — subtle ambience" : "Reverb off";
+  liveStatus.textContent = `Reverb ${enabled ? "enabled" : "disabled"}`;
+});
+
+function updateLowMidLabel(): void {
+  const firstNote = trackPitches[LOW_MID_TRACK_INDICES[0]].note;
+  const lastNote = trackPitches[LOW_MID_TRACK_INDICES[3]].note;
+  const ratio = Number.isFinite(LOW_MID_COMPRESSION_RATIO) ? String(LOW_MID_COMPRESSION_RATIO) : "∞";
+  lowMidHelp.textContent = `${firstNote}–${lastNote} · top ${Math.round(LOW_MID_PEAK_FRACTION * 100)}% · ${ratio}:1`;
+  lowMidHelp.title = lowMidHelp.textContent;
+}
+
+updateLowMidLabel();
+
+lowMidInput.addEventListener("change", () => {
+  const enabled = lowMidInput.checked;
+  sequencer.setLowMidCompression(enabled);
+  lowMidState.textContent = enabled ? "On" : "Off";
+  updateVelocityMappingLabel();
+  statusText.textContent = enabled
+    ? `Low-mid limiting on — ${lowMidHelp.textContent}`
+    : "Low-mid limiting off";
+  liveStatus.textContent = `Low-mid limiting ${enabled ? "enabled" : "disabled"}`;
+});
+
 dimLiftInput.addEventListener("change", () => {
   const enabled = dimLiftInput.checked;
   sequencer.setDimValueLift(enabled);
   dimLiftState.textContent = enabled ? "On" : "Off";
-  velocityMapping.textContent = enabled
-    ? `Brightness mapping: ${DIM_FLOOR_PERCENT}% dim floor · ${DIM_CUTOFF_PERCENT}%+ unchanged`
-    : "Brightness mapping: linear 0–1 velocity";
+  updateVelocityMappingLabel();
   statusText.textContent = enabled
     ? `Dim-value lift on — positive values below ${DIM_CUTOFF_PERCENT}% are raised`
     : "Dim-value lift off — linear brightness velocity restored";
   liveStatus.textContent = `Dim-value lift ${enabled ? "enabled" : "disabled"}`;
+});
+
+function updateVelocityMappingLabel(): void {
+  const mappings = [
+    dimLiftInput.checked
+      ? `${DIM_FLOOR_PERCENT}% dim floor · ${DIM_CUTOFF_PERCENT}%+ unchanged`
+      : "linear 0–1 base",
+    latePeakInput.checked
+      ? `loudest ${LATE_PEAK_PERCENT}% after beat 1 · peak −${LATE_PEAK_REDUCTION_PERCENT}%`
+      : "late-peak compression off",
+    lowMidInput.checked
+      ? `low mids · top ${Math.round(LOW_MID_PEAK_FRACTION * 100)}% velocity limit`
+      : "low-mid velocity limiting off",
+  ];
+  velocityMapping.textContent = `Velocity mapping: ${mappings.join(" · ")}`;
+}
+
+updateVelocityMappingLabel();
+
+latePeakInput.addEventListener("change", () => {
+  const enabled = latePeakInput.checked;
+  sequencer.setLatePeakCompression(enabled);
+  latePeakState.textContent = enabled ? "On" : "Off";
+  updateVelocityMappingLabel();
+  statusText.textContent = enabled
+    ? `Late-peak compression on — post-beat-1 peak reduced ${LATE_PEAK_REDUCTION_PERCENT}% per element`
+    : "Late-peak compression off — original post-beat-1 velocities restored";
+  liveStatus.textContent = `Late-peak compression ${enabled ? "enabled" : "disabled"}`;
 });
 
 elementSeek.addEventListener("input", () => {
@@ -509,7 +724,10 @@ elementSeek.addEventListener("input", () => {
 exportButton.addEventListener("click", () => {
   try {
     const summary = downloadMidiFile(elements, sequencer.tempo, {
+      compressLowMids: lowMidInput.checked,
       liftDimValues: dimLiftInput.checked,
+      compressLatePeaks: latePeakInput.checked,
+      tonalSettings,
     });
     statusText.textContent = `Exported ${summary.filename} · ${summary.noteCount.toLocaleString()} notes`;
     liveStatus.textContent = `MIDI exported with ${summary.instrumentTrackCount} instrument tracks`;
@@ -520,14 +738,29 @@ exportButton.addEventListener("click", () => {
   }
 });
 
+let audioExportStartedAt = 0;
+let currentAudioExportProgress: AudioExportProgress | null = null;
+
+sampleRateInput.addEventListener("change", () => {
+  const rate = `${Number(sampleRateInput.value) / 1000} kHz`;
+  audioExportFormat.textContent = `${rate} · 24-bit`;
+  wavTarget.textContent = rate;
+  audioExportButton.title = `Offline-render a stereo 24-bit WAV at ${rate}. Falls back to lower rates if needed.`;
+});
+
 function updateAudioExportProgress(progress: AudioExportProgress): void {
-  const rate = `${Math.round(progress.sampleRate / 1000)} kHz`;
+  currentAudioExportProgress = progress;
+  const rate = `${progress.sampleRate / 1000} kHz`;
+  const percent = progress.fraction === undefined
+    ? ""
+    : ` · ${Math.floor(progress.fraction * 100)}%`;
+  const elapsed = formatDuration((performance.now() - audioExportStartedAt) / 1000);
   if (progress.phase === "checking") {
     statusText.textContent = `Checking ${rate} offline audio support…`;
   } else if (progress.phase === "rendering") {
-    statusText.textContent = `Rendering ${rate} Tone.js mix — this may take a minute`;
+    statusText.textContent = `Rendering ${rate}${percent} · ${elapsed} elapsed`;
   } else {
-    statusText.textContent = `Encoding ${rate} · 24-bit stereo WAV…`;
+    statusText.textContent = `Encoding ${rate} · 24-bit WAV${percent} · ${elapsed} elapsed`;
   }
 }
 
@@ -540,18 +773,31 @@ audioExportButton.addEventListener("click", async () => {
   audioExportButton.setAttribute("aria-busy", "true");
   playButton.disabled = true;
   exportButton.disabled = true;
+  sampleRateInput.disabled = true;
   liveStatus.textContent = "Audio export started";
+  audioExportStartedAt = performance.now();
+  currentAudioExportProgress = null;
+  const elapsedTimer = window.setInterval(() => {
+    if (currentAudioExportProgress) {
+      updateAudioExportProgress(currentAudioExportProgress);
+    }
+  }, 1000);
 
   try {
     const summary = await downloadToneAudio({
       bpm: sequencer.tempo,
       masterPercent: Number(volumeInput.value),
+      reverbEnabled: reverbInput.checked,
+      compressLowMids: lowMidInput.checked,
+      sampleRate: Number(sampleRateInput.value) as AudioSampleRate,
       liftDimValues: dimLiftInput.checked,
+      compressLatePeaks: latePeakInput.checked,
       trackStates: TRACKS.map((track) => sequencer.getTrackState(track.index)),
+      tonalSettings,
       onProgress: updateAudioExportProgress,
     });
     const sizeMiB = summary.bytes / 1024 / 1024;
-    const rate = `${Math.round(summary.sampleRate / 1000)} kHz`;
+    const rate = `${summary.sampleRate / 1000} kHz`;
     statusText.textContent = `Exported ${rate} · ${summary.bitDepth}-bit WAV · ${sizeMiB.toFixed(1)} MiB`;
     liveStatus.textContent = `WAV exported at ${rate} and ${summary.bitDepth}-bit depth`;
   } catch (error) {
@@ -559,10 +805,13 @@ audioExportButton.addEventListener("click", async () => {
     statusText.textContent = "WAV export failed — try closing other tabs or using a lower-memory browser";
     liveStatus.textContent = "WAV audio export failed";
   } finally {
+    window.clearInterval(elapsedTimer);
+    currentAudioExportProgress = null;
     audioExportButton.disabled = false;
     audioExportButton.removeAttribute("aria-busy");
     playButton.disabled = false;
     exportButton.disabled = false;
+    sampleRateInput.disabled = false;
   }
 });
 

@@ -1,7 +1,17 @@
 import * as Tone from "tone";
+import { createOutputReverb, REVERB_WET_MIX } from "./audio-effects";
 import { elements } from "./data";
-import { NOTE_DURATION, STEPS_PER_ELEMENT, TRACKS } from "./tracks";
-import { scaleBrightnessVelocity } from "./velocity";
+import {
+  DEFAULT_TONAL_SETTINGS,
+  type TonalSettings,
+} from "./music";
+import {
+  createTrackPitches,
+  NOTE_DURATION,
+  STEPS_PER_ELEMENT,
+  TRACKS,
+} from "./tracks";
+import { createSequenceVelocities } from "./velocity";
 
 export type PlaybackState = "stopped" | "playing" | "paused";
 
@@ -155,13 +165,26 @@ export class SpectrumSequencer {
 
   private voices: MonophonicVoice[] = [];
   private channels: Tone.Channel[] = [];
+  private reverb: Tone.Reverb | null = null;
   private master: Tone.Volume | null = null;
   private limiter: Tone.Limiter | null = null;
   private initialized = false;
   private state: PlaybackState = "stopped";
   private bpm = 120;
   private masterPercent = DEFAULT_MASTER_PERCENT;
+  private reverbEnabled = true;
+  private compressLowMids = true;
   private liftDimValues = false;
+  private compressLatePeaks = false;
+  private elementVelocities = createSequenceVelocities(
+    elements.map((element) => TRACKS.map((track) => element.colorAggregates[track.bandKey])),
+    {
+      liftDimValues: this.liftDimValues,
+      compressLatePeaks: this.compressLatePeaks,
+      compressLowMids: this.compressLowMids,
+    },
+  );
+  private trackPitches = createTrackPitches(DEFAULT_TONAL_SETTINGS);
   private pendingElementIndex = 0;
   private lastEmittedStep = -1;
   private animationFrame = 0;
@@ -190,6 +213,7 @@ export class SpectrumSequencer {
 
     await Tone.start();
     this.initializeAudio();
+    await this.reverb?.ready;
     const transport = Tone.getTransport();
     const totalTicks = this.totalSteps * this.stepTicks();
 
@@ -257,6 +281,26 @@ export class SpectrumSequencer {
 
   setDimValueLift(enabled: boolean): void {
     this.liftDimValues = enabled;
+    this.updateElementVelocities();
+  }
+
+  setReverbEnabled(enabled: boolean): void {
+    this.reverbEnabled = enabled;
+    this.reverb?.wet.rampTo(enabled ? REVERB_WET_MIX : 0, 0.04);
+  }
+
+  setLowMidCompression(enabled: boolean): void {
+    this.compressLowMids = enabled;
+    this.updateElementVelocities();
+  }
+
+  setLatePeakCompression(enabled: boolean): void {
+    this.compressLatePeaks = enabled;
+    this.updateElementVelocities();
+  }
+
+  setTonalSettings(settings: TonalSettings): void {
+    this.trackPitches = createTrackPitches(settings);
   }
 
   toggleMute(trackIndex: number): TrackState {
@@ -284,10 +328,12 @@ export class SpectrumSequencer {
     }
     this.voices.forEach((voice) => voice.dispose());
     this.channels.forEach((channel) => channel.dispose());
+    this.reverb?.dispose();
     this.master?.dispose();
     this.limiter?.dispose();
     this.voices = [];
     this.channels = [];
+    this.reverb = null;
     this.master = null;
     this.limiter = null;
     this.initialized = false;
@@ -305,35 +351,36 @@ export class SpectrumSequencer {
 
     this.limiter = new Tone.Limiter(-1).toDestination();
     this.master = new Tone.Volume().connect(this.limiter);
+    this.reverb = createOutputReverb(this.reverbEnabled).connect(this.master);
     this.setMasterVolume(this.masterPercent);
 
     this.channels = TRACKS.map((config) =>
       new Tone.Channel({
         pan: config.pan,
         volume: TRACK_HEADROOM_DB,
-      }).connect(this.master!),
+      }).connect(this.reverb!),
     );
     this.voices = TRACKS.map((_, index) =>
       createVoice(index).connect(this.channels[index]),
     );
     this.applyTrackAudibility();
 
-    TRACKS.forEach((config, bandIndex) => {
-      elements.forEach((element, elementIndex) => {
-        const brightness = element.colorAggregates[config.bandKey];
+    TRACKS.forEach((_config, bandIndex) => {
+      elements.forEach((_element, elementIndex) => {
+        const velocity = this.elementVelocities[elementIndex][bandIndex];
 
         // Exact zero is silence, but its sixteenth-note position remains reserved.
-        if (brightness === 0) {
+        if (velocity === 0) {
           return;
         }
 
         const step = elementIndex * STEPS_PER_ELEMENT + bandIndex;
         transport.schedule((time) => {
           this.voices[bandIndex].triggerAttackRelease(
-            config.note,
+            this.trackPitches[bandIndex].toneNote,
             NOTE_DURATION,
             time,
-            scaleBrightnessVelocity(brightness, this.liftDimValues),
+            this.elementVelocities[elementIndex][bandIndex],
           );
         }, `${step * this.stepTicks()}i`);
       });
@@ -422,5 +469,16 @@ export class SpectrumSequencer {
       const state = this.trackStates[index];
       channel.mute = state.muted || (hasSolo && !state.soloed);
     });
+  }
+
+  private updateElementVelocities(): void {
+    this.elementVelocities = createSequenceVelocities(
+      elements.map((element) => TRACKS.map((track) => element.colorAggregates[track.bandKey])),
+      {
+        liftDimValues: this.liftDimValues,
+        compressLatePeaks: this.compressLatePeaks,
+        compressLowMids: this.compressLowMids,
+      },
+    );
   }
 }

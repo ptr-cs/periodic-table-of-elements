@@ -1,31 +1,50 @@
 import * as Tone from "tone";
+import { createOutputReverb, REVERB_TAIL_SECONDS } from "./audio-effects";
 import { elements } from "./data";
+import {
+  DEFAULT_TONAL_SETTINGS,
+  tonalSettingsSlug,
+  type TonalSettings,
+} from "./music";
 import {
   createVoice,
   TRACK_HEADROOM_DB,
   type TrackState,
 } from "./sequencer";
-import { NOTE_DURATION, STEPS_PER_ELEMENT, TRACKS } from "./tracks";
-import { scaleBrightnessVelocity } from "./velocity";
+import {
+  createTrackPitches,
+  NOTE_DURATION,
+  STEPS_PER_ELEMENT,
+  TRACKS,
+} from "./tracks";
+import { createSequenceVelocities } from "./velocity";
+import { encodePcm24Wav } from "./wav-encoder";
 
-const PREFERRED_SAMPLE_RATES = [192_000, 96_000, 48_000, 44_100] as const;
+export const AUDIO_SAMPLE_RATES = [192_000, 96_000, 48_000, 44_100] as const;
+export type AudioSampleRate = (typeof AUDIO_SAMPLE_RATES)[number];
+
 const WAV_BIT_DEPTH = 24;
 const CHANNEL_COUNT = 2;
 const RELEASE_TAIL_SECONDS = 0.5;
-const ENCODE_YIELD_FRAMES = 262_144;
 
 export type AudioExportPhase = "checking" | "rendering" | "encoding";
 
 export interface AudioExportProgress {
   phase: AudioExportPhase;
   sampleRate: number;
+  fraction?: number;
 }
 
 export interface AudioExportOptions {
   bpm: number;
   masterPercent: number;
+  reverbEnabled: boolean;
+  compressLowMids: boolean;
+  sampleRate?: AudioSampleRate;
   liftDimValues: boolean;
+  compressLatePeaks: boolean;
   trackStates: readonly TrackState[];
+  tonalSettings?: TonalSettings;
   onProgress?: (progress: AudioExportProgress) => void;
 }
 
@@ -47,128 +66,110 @@ function browserSupportsSampleRate(sampleRate: number): boolean {
   }
 }
 
-function renderDurationSeconds(bpm: number): number {
-  return (elements.length * 4 * 60) / bpm + RELEASE_TAIL_SECONDS;
+function renderDurationSeconds(bpm: number, reverbEnabled: boolean): number {
+  return (elements.length * 4 * 60) / bpm
+    + RELEASE_TAIL_SECONDS
+    + (reverbEnabled ? REVERB_TAIL_SECONDS : 0);
 }
 
 async function renderToneMix(
   sampleRate: number,
   options: AudioExportOptions,
 ): Promise<AudioBuffer> {
-  const duration = renderDurationSeconds(options.bpm);
+  const duration = renderDurationSeconds(options.bpm, options.reverbEnabled);
   const hasSolo = options.trackStates.some((track) => track.soloed);
+  const tonalSettings = options.tonalSettings ?? DEFAULT_TONAL_SETTINGS;
+  const trackPitches = createTrackPitches(tonalSettings);
+  const elementVelocities = createSequenceVelocities(
+    elements.map((element) => TRACKS.map((track) => element.colorAggregates[track.bandKey])),
+    options,
+  );
 
-  const rendered = await Tone.Offline(
-    (context) => {
+  const context = new Tone.OfflineContext(CHANNEL_COUNT, duration, sampleRate);
+  const originalContext = Tone.getContext();
+  const nodes: Tone.ToneAudioNode[] = [];
+  const own = <T extends Tone.ToneAudioNode>(node: T): T => {
+    nodes.push(node);
+    return node;
+  };
+  let progressTimer: number | undefined;
+
+  try {
+    let reverb: Tone.Reverb | undefined;
+    Tone.setContext(context);
+    try {
       context.transport.timeSignature = 4;
       context.transport.bpm.value = options.bpm;
 
-      const limiter = new Tone.Limiter(-1).toDestination();
-      const master = new Tone.Volume().connect(limiter);
+      const limiter = own(new Tone.Limiter(-1)).toDestination();
+      const master = own(new Tone.Volume()).connect(limiter);
+      if (options.reverbEnabled) {
+        reverb = own(createOutputReverb()).connect(master);
+      }
       const gain = Math.max(0, Math.min(100, options.masterPercent)) / 100;
       master.volume.value = gain === 0 ? -Infinity : Tone.gainToDb(gain);
 
-      const channels = TRACKS.map((track, index) => {
-        const channel = new Tone.Channel({
-          pan: track.pan,
-          volume: TRACK_HEADROOM_DB,
-        }).connect(master);
+      const sixteenthSeconds = 60 / options.bpm / 4;
+
+      TRACKS.forEach((track, bandIndex) => {
+        const index = track.index;
         const state = options.trackStates[index] ?? {
           muted: false,
           soloed: false,
         };
-        channel.mute = state.muted || (hasSolo && !state.soloed);
-        return channel;
-      });
-      const voices = TRACKS.map((_, index) =>
-        createVoice(index).connect(channels[index]),
-      );
-      const sixteenthSeconds = 60 / options.bpm / 4;
+        if (
+          gain === 0 || state.muted || (hasSolo && !state.soloed)
+          || !elementVelocities.some((velocities) => velocities[bandIndex] > 0)
+        ) {
+          return;
+        }
+        const channel = own(new Tone.Channel({
+          pan: track.pan,
+          volume: TRACK_HEADROOM_DB,
+        })).connect(reverb ?? master);
+        const voice = own(createVoice(bandIndex)).connect(channel);
 
-      TRACKS.forEach((track, bandIndex) => {
-        elements.forEach((element, elementIndex) => {
-          const brightness = element.colorAggregates[track.bandKey];
-          if (brightness === 0) {
+        elements.forEach((_element, elementIndex) => {
+          const velocity = elementVelocities[elementIndex][bandIndex];
+          if (velocity === 0) {
             return;
           }
 
           const step = elementIndex * STEPS_PER_ELEMENT + bandIndex;
-          voices[bandIndex].triggerAttackRelease(
-            track.note,
+          voice.triggerAttackRelease(
+            trackPitches[bandIndex].toneNote,
             NOTE_DURATION,
             step * sixteenthSeconds,
-            scaleBrightnessVelocity(brightness, options.liftDimValues),
+            velocity,
           );
         });
       });
-    },
-    duration,
-    CHANNEL_COUNT,
-    sampleRate,
-  );
-
-  const audioBuffer = rendered.get();
-  if (!audioBuffer) {
-    throw new Error("Tone.js returned an empty offline audio buffer.");
-  }
-  return audioBuffer;
-}
-
-function writeAscii(view: DataView, offset: number, value: string): void {
-  for (let index = 0; index < value.length; index += 1) {
-    view.setUint8(offset + index, value.charCodeAt(index));
-  }
-}
-
-async function encodePcm24Wav(audioBuffer: AudioBuffer): Promise<Blob> {
-  const bytesPerSample = WAV_BIT_DEPTH / 8;
-  const blockAlign = audioBuffer.numberOfChannels * bytesPerSample;
-  const dataBytes = audioBuffer.length * blockAlign;
-  const wav = new ArrayBuffer(44 + dataBytes);
-  const view = new DataView(wav);
-
-  writeAscii(view, 0, "RIFF");
-  view.setUint32(4, 36 + dataBytes, true);
-  writeAscii(view, 8, "WAVE");
-  writeAscii(view, 12, "fmt ");
-  view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
-  view.setUint16(22, audioBuffer.numberOfChannels, true);
-  view.setUint32(24, audioBuffer.sampleRate, true);
-  view.setUint32(28, audioBuffer.sampleRate * blockAlign, true);
-  view.setUint16(32, blockAlign, true);
-  view.setUint16(34, WAV_BIT_DEPTH, true);
-  writeAscii(view, 36, "data");
-  view.setUint32(40, dataBytes, true);
-
-  const channels = Array.from(
-    { length: audioBuffer.numberOfChannels },
-    (_, channel) => audioBuffer.getChannelData(channel),
-  );
-  let offset = 44;
-
-  for (let frame = 0; frame < audioBuffer.length; frame += 1) {
-    for (let channel = 0; channel < channels.length; channel += 1) {
-      const sample = Math.max(-1, Math.min(1, channels[channel][frame]));
-      const signed =
-        sample < 0
-          ? Math.round(sample * 0x800000)
-          : Math.round(sample * 0x7fffff);
-      const encoded = signed < 0 ? signed + 0x1000000 : signed;
-      view.setUint8(offset, encoded & 0xff);
-      view.setUint8(offset + 1, (encoded >>> 8) & 0xff);
-      view.setUint8(offset + 2, (encoded >>> 16) & 0xff);
-      offset += bytesPerSample;
+    } finally {
+      Tone.setContext(originalContext);
     }
-
-    if (frame > 0 && frame % ENCODE_YIELD_FRAMES === 0) {
-      await new Promise<void>((resolve) => {
-        window.requestAnimationFrame(() => resolve());
+    await reverb?.ready;
+    progressTimer = window.setInterval(() => {
+      options.onProgress?.({
+        phase: "rendering",
+        sampleRate,
+        fraction: Math.min(1, context.rawContext.currentTime / duration),
       });
-    }
-  }
+    }, 500);
 
-  return new Blob([wav], { type: "audio/wav" });
+    // All notes are already scheduled. Preserve Tone's source-stop callbacks
+    // without its once-per-audio-second timer waits, which background tabs throttle.
+    const rendered = await context.render(false);
+    const audioBuffer = rendered.get();
+    if (!audioBuffer) {
+      throw new Error("Tone.js returned an empty offline audio buffer.");
+    }
+    rendered.dispose();
+    return audioBuffer;
+  } finally {
+    window.clearInterval(progressTimer);
+    nodes.reverse().forEach((node) => node.dispose());
+    context.dispose();
+  }
 }
 
 function downloadBlob(blob: Blob, filename: string): void {
@@ -187,19 +188,26 @@ export async function downloadToneAudio(
 ): Promise<AudioExportSummary> {
   let lastError: unknown;
 
-  for (const sampleRate of PREFERRED_SAMPLE_RATES) {
+  const firstRate = AUDIO_SAMPLE_RATES.indexOf(options.sampleRate ?? AUDIO_SAMPLE_RATES[0]);
+  for (const sampleRate of AUDIO_SAMPLE_RATES.slice(Math.max(0, firstRate))) {
     options.onProgress?.({ phase: "checking", sampleRate });
     if (!browserSupportsSampleRate(sampleRate)) {
       continue;
     }
 
     try {
-      options.onProgress?.({ phase: "rendering", sampleRate });
+      options.onProgress?.({ phase: "rendering", sampleRate, fraction: 0 });
       const audioBuffer = await renderToneMix(sampleRate, options);
-      options.onProgress?.({ phase: "encoding", sampleRate });
-      const wav = await encodePcm24Wav(audioBuffer);
-      const rateLabel = `${Math.round(sampleRate / 1000)}khz`;
-      const filename = `periodic-spectrum-${Math.round(options.bpm)}bpm-${rateLabel}-${WAV_BIT_DEPTH}bit.wav`;
+      const wav = await encodePcm24Wav(audioBuffer, (completedFrames, totalFrames) => {
+        options.onProgress?.({
+          phase: "encoding",
+          sampleRate,
+          fraction: completedFrames / totalFrames,
+        });
+      });
+      const rateLabel = `${sampleRate / 1000}khz`;
+      const tonalSettings = options.tonalSettings ?? DEFAULT_TONAL_SETTINGS;
+      const filename = `periodic-spectrum-${Math.round(options.bpm)}bpm-${tonalSettingsSlug(tonalSettings)}-${rateLabel}-${WAV_BIT_DEPTH}bit.wav`;
       downloadBlob(wav, filename);
 
       return {

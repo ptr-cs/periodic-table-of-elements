@@ -1,7 +1,13 @@
 import { Midi } from "@tonejs/midi";
 import { BAND_KEYS, type ElementRecord } from "./types";
-import { STEPS_PER_ELEMENT, TRACKS } from "./tracks";
-import { scaleBrightnessVelocity } from "./velocity";
+import {
+  DEFAULT_TONAL_SETTINGS,
+  getMusicKey,
+  tonalSettingsSlug,
+  type TonalSettings,
+} from "./music";
+import { createTrackPitches, STEPS_PER_ELEMENT, TRACKS } from "./tracks";
+import { createSequenceVelocities, type VelocityMappingOptions } from "./velocity";
 
 const NOTE_GATE = 0.9;
 const MIDI_VELOCITY_STEPS = 127;
@@ -14,8 +20,8 @@ export interface MidiExportSummary {
   durationSeconds: number;
 }
 
-export interface MidiExportOptions {
-  liftDimValues?: boolean;
+export interface MidiExportOptions extends VelocityMappingOptions {
+  tonalSettings?: TonalSettings;
 }
 
 function midiVelocity(brightness: number): number {
@@ -35,6 +41,9 @@ export function createMidiFile(
   bpm: number,
   options: MidiExportOptions = {},
 ): MidiExportSummary {
+  const tonalSettings = options.tonalSettings ?? DEFAULT_TONAL_SETTINGS;
+  const musicKey = getMusicKey(tonalSettings.keyId);
+  const trackPitches = createTrackPitches(tonalSettings);
   const midi = new Midi();
   midi.name = "Periodic Table Color Sonification";
   midi.header.setTempo(bpm);
@@ -44,13 +53,17 @@ export function createMidiFile(
   });
   midi.header.keySignatures.push({
     ticks: 0,
-    key: "C",
-    scale: "major",
+    key: musicKey.tonic,
+    scale: musicKey.mode,
   });
 
   const stepTicks = midi.header.ppq / 4;
   const durationTicks = Math.round(stepTicks * NOTE_GATE);
   const totalTicks = elements.length * STEPS_PER_ELEMENT * stepTicks;
+  const elementVelocities = createSequenceVelocities(
+    elements.map((element) => BAND_KEYS.map((bandKey) => element.colorAggregates[bandKey])),
+    options,
+  );
   let noteCount = 0;
 
   elements.forEach((element, elementIndex) => {
@@ -72,21 +85,19 @@ export function createMidiFile(
     track.channel = config.index;
     track.instrument.number = config.midiProgram;
 
-    elements.forEach((element, elementIndex) => {
-      const brightness = element.colorAggregates[BAND_KEYS[bandIndex]];
+    elements.forEach((_element, elementIndex) => {
+      const velocity = elementVelocities[elementIndex][bandIndex];
 
       // Zero is a fixed-position rest. It does not collapse the timeline.
-      if (brightness === 0) {
+      if (velocity === 0) {
         return;
       }
 
       track.addNote({
-        midi: config.midiNote,
+        midi: trackPitches[bandIndex].midiNote,
         ticks: (elementIndex * STEPS_PER_ELEMENT + bandIndex) * stepTicks,
         durationTicks,
-        velocity: midiVelocity(
-          scaleBrightnessVelocity(brightness, options.liftDimValues ?? false),
-        ),
+        velocity: midiVelocity(velocity),
       });
       noteCount += 1;
     });
@@ -105,7 +116,7 @@ export function createMidiFile(
 
   return {
     bytes,
-    filename: `periodic-spectrum-${safeBpm}bpm.mid`,
+    filename: `periodic-spectrum-${safeBpm}bpm-${tonalSettingsSlug(tonalSettings)}.mid`,
     noteCount,
     instrumentTrackCount: TRACKS.length,
     durationSeconds: (elements.length * 4 * 60) / bpm,
